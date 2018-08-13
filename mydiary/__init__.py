@@ -1,7 +1,6 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+    JWTManager
 )
 import os
 import datetime
@@ -27,8 +26,8 @@ app_db.new_users_table()
 app_db.new_entries_table()
 
 now_time = "".join(str(datetime.datetime.now().day) +
-                "/" + str(datetime.datetime.now().month) +
-                "/" + str(datetime.datetime.now().year))
+            "/" + str(datetime.datetime.now().month) +
+            "/" + str(datetime.datetime.now().year))
 
 from . import entries
 from . import users

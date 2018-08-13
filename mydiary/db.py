@@ -4,8 +4,9 @@ import psycopg2
 
 
 class MyDiaryDatabase:
-    def __init__(self, db_name):
+    """This defines the database connection and holds methods for creating and deleting tables"""
 
+    def __init__(self, db_name):
         self.mydb = db_name
 
         try:

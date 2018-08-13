@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="style.css">	
+	</head>
+	<body background="background6.jpg">
+		<div id="page">
+			<div id="header" class="page-header header">
+				<img src="diary_logo.png" alt="MyDiary" class="page-logo"></img>
+			</div>
+			<div id="body">
+				<div class="container container-home">
+					<br>
+					{% for message in get_flashed_messages() %}
+						{{ message }}
+					{% endfor %}
+					<h2><u>MyThoughts</u></h2>
+					<table id="entries">
+						<tr>
+		                    <th>This is the first diary entry. Pretend there's a paragraph of information. This data is meant to flow over the allocated space so that the scroll feature can be tested. The quick brown fox jumps over the lazy dog. Or is it "jumped over the lazy dog"? Either way, we know the dog is lazy and the fox is quick. This is the first diary entry. Pretend there's a paragraph of information. This data is meant to flow over the allocated space so that the scroll feature can be tested. The quick brown fox jumps over the lazy dog. Or is it "jumped over the lazy dog"? Either way, we know the dog is lazy and the fox is quick.</th></a>
+		                    <th>08/01/18</th>
+		                    <th>
+		                    	<a href="edit.html"><input type="button" class="button-edit" onclick="" value="Edit"></a>
+		                    	<input type="button" class="button-delete" onclick="" value="Delete">
+		                    </th>
+						</tr>
+						<tr>
+		                    <th>This is the second diary entry. Pretend there's a paragraph of information</th>
+		                    <th>07/01/18</th>
+		                    <th>
+		                    	<a href="edit.html"><input type="button" class="button-edit" onclick="" value="Edit"></a>
+		                    	<input type="button" class="button-delete" onclick="" value="Delete">
+		                    </th>
+		                </tr>
+		                <tr>
+		                    <th>This is the third diary entry. Pretend there's a paragraph of information</th>
+		                    <th>06/01/18</th>
+		                    <th>
+		                    	<a href="edit.html"><input type="button" class="button-edit" onclick="" value="Edit"></a>
+		                    	<input type="button" class="button-delete" onclick="" value="Delete">
+		                    </th>
+		                </tr>
+		                <tr>
+		                    <th>This is the fourth diary entry. Pretend there's a paragraph of information</th>
+		                    <th>05/01/18</th>
+		                    <th>
+		                    	<a href="edit.html"><input type="button" class="button-edit" onclick="" value="Edit"></a>
+		                    	<input type="button" class="button-delete" onclick="" value="Delete">
+		                    </th>
+		                </tr>
+					</table>
+				</div>
+				<div id="app-button" class="container-button">
+					<div class="col col-33">
+						<a href="edit.html"><input type="button" class="button-page" onclick="" value="NewThought"></a>
+					</div>
+					<div class="col col-33">
+						<a href="profile.html"><input type="button" class="button-page" onclick="" value="MyProfile"></a>
+					</div>
+					<div class="col col-33">
+						<a href="login.html"><input type="button" class="button-page" onclick="" value="LogOut"></a>
+					</div>
+				</div>
+			</div>
+		</body>
+		<div class="footer">
+			<p>Page by: Gordon Balaaka</p>
+		  	<p>App information.</p>
+		</div>
+	</div>
+</html>
