@@ -1,0 +1,32 @@
+
+let fName  = "Gordon";
+let lName  = "Balaaka";
+
+document.write(`${fName} ${lName}<br />`); #prints "Gordon Balaaka"
+
+let num1  = 10;
+let num1  = 5;
+
+document.write(`10 * 5 = ${num1 * num2}<br />`); #prints "10 * 5 = 50"
+
+function doMath(strings, ...values){
+    if(strings[0] == 'Add'){
+        document.write(`${values[0]} + ${values[1]} = ${values[0] + values[1]}<br />`);
+    } else if(strings[0] == 'Sub') {
+        document.write(`${values[0]} - ${values[1]} = ${values[0] - values[1]}<br />`);
+    }
+}
+
+doMath `Add${10} ${20}`;     #prints "10 + 20 = 30"
+doMath `Sub${10} ${20}`;     #prints "10 - 20 = -10"
+
+for(let c of fName){
+    document.write(`${c}<br />`);       #prints letters for fName out, each on a new line
+}
+
+document.write(fName.startsWith("Go") + "<br />");
+document.write(fName.includes("rdo") + "<br />");
+
+function getSum(num1 = 1, num2 = 1){
+    document.write(`${num1} + ${num2} = ${num1 + num2}<br />`);
+}
