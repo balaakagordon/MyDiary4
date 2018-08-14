@@ -71,10 +71,8 @@ def register():
             error_msg = "Please confirm your password"
             input_error = True
         if input_error:
-            print(error_msg)
             return jsonify({"Input error": error_msg}), 400
         data = request.get_json()
-        print(data)
         signup_data = reg_validation(data)
         if signup_data[0] == "error":
             return jsonify({"message": "Invalid input", "error": signup_data[1]}), signup_data[2]
@@ -91,12 +89,21 @@ def register():
 @app.route('/auth/login', methods=['GET', 'POST'])
 def userlogin():
     if request.method == 'POST':
+        input_error = False
         if not request.json:
-            return jsonify({"input error": "Wrong input data format"}), 401
+            input_error = True
+            error_msg = "Wrong input data format"
+            #return jsonify({"input error": "Wrong input data format"}), 400
         if 'email' not in request.json:
-            return jsonify({"input error": "Cannot find email. Please provide valid login credentials"}), 400
+            input_error = True
+            error_msg = "Cannot find email. Please provide valid login credentials"
+            #return jsonify({"input error": "Cannot find email. Please provide valid login credentials"}), 400
         if 'password' not in request.json:
-            return jsonify({"input error": "Cannot find password. Please provide valid login credentials"}), 400
+            input_error = True
+            error_msg = "Cannot find password. Please provide valid login credentials"
+            #return jsonify({"input error": "Cannot find password. Please provide valid login credentials"}), 400
+        if input_error:
+            return jsonify({"Input error": error_msg}), 400
         login_email=request.json.get('email', "")
         login_password=request.json.get('password', "")
         logged_in = my_diary_object.userLogin(login_email, login_password)
