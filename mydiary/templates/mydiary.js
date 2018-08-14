@@ -13,7 +13,7 @@ function addUser() {
         body:JSON.stringify({name: name, email: email, password:password, confirmpassword:confirmpassword})
     })
     .then((res) => res.json())
-    .then(function (data){
+    .then(function (data) {
         if(data["message"] == "Invalid input") {
             let errormsg = data["error"];
             document.getElementById('regmessage').innerHTML = errormsg;
@@ -37,8 +37,15 @@ function login(){
             'Accept': 'application/json',
             'Content-type':'application/json'
         },
-        body:json.stringify({"email": email, "password":password})
+        body:JSON.stringify({"email": email, "password":password})
     })
-    //.then((res) => res.json())
-    .then(regResponse(data))
+    .then((res) => res.json())
+    .then (function (data) {
+        console.log(data["message"])
+        if(data["message"] == "Login successful") {
+            window.location.href='./home.html'
+        } else if(data["message"] == "Sorry, incorrect credentials") {
+            document.getElementById('logmessage').innerHTML = errormsg;
+        }
+    })
 }
