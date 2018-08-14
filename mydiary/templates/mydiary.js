@@ -41,11 +41,11 @@ function login(){
     })
     .then((res) => res.json())
     .then (function (data) {
-        console.log(data["message"])
+        console.log(data)
         if(data["message"] == "Login successful") {
             window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
-            document.getElementById('logmessage').innerHTML = errormsg;
+            document.getElementById('logmessage').innerHTML = data["message"];
         }
     })
 }
