@@ -44,6 +44,9 @@ def reg_validation(data):
     user_password=request.json.get('password', "")
     if len(user_password) <= 5:
         return ["error", "Password too short", 411]
+    confirm_password=request.json.get('confirmpassword', "")
+    if user_password != confirm_password:
+        return ["error", "Passwords do not match", 400]
     return [user_name, user_email, user_password]
 
 
@@ -56,27 +59,32 @@ def register():
             error_msg = "invalid data type"
             input_error = True
         elif 'email' not in request.json:
-            error_msg = "Please provide an email address"
+            error_msg = "Please enter your email address"
             input_error = True
         elif 'name' not in request.json:
-            error_msg = "Please provide a name for the user"
+            error_msg = "Please enter your name"
             input_error = True
         elif 'password' not in request.json:
-            error_msg = "Please provide a user password"
+            error_msg = "Please enter your password"
+            input_error = True
+        elif 'confirmpassword' not in request.json:
+            error_msg = "Please confirm your password"
             input_error = True
         if input_error:
+            print(error_msg)
             return jsonify({"Input error": error_msg}), 400
         data = request.get_json()
+        print(data)
         signup_data = reg_validation(data)
         if signup_data[0] == "error":
-            return jsonify({"Invalid input": signup_data[1]}), signup_data[2]
+            return jsonify({"message": "Invalid input", "error": signup_data[1]}), signup_data[2]
         add_user = my_diary_object.addUser(signup_data[0], signup_data[1], signup_data[2])
-        if add_user == "Added successfully":
+        if add_user == "Registered Successfully!":
             user = {
                 'name':signup_data[0],
                 'email':signup_data[1],
             }
-            return jsonify({"user":user}), 201
+            return jsonify({"message": add_user, "user": user}), 201
         return jsonify({"message": add_user}), 409
 
 """ links to the login page """
