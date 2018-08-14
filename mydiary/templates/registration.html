@@ -2,22 +2,24 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="style.css">	
+        <title>UserRegistration</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="mydiary.js"></script>
 	</head>
 	<body background="background6.jpg">
 		<div class="page-header header">
             <img src="diary_logo.png" alt="MyDiary" class="page-logo"></img>
 		</div>
 		<div id="registration" class="container container-login">
-            <h1><u>Please Register</u></h1>
-            <br>
-            <form>
+            <form id="regform" onsubmit="return addUser()">
+                <h1><u>Please Register</u></h1>
+                <br>
                 <div class="row">
                     <div class="col col-40">
-                        <label for="name">Name</label>
+                        <label for="uname">Name</label>
                     </div>
                     <div class="col col-60">
-                        <input type="text" id="name" name="username" placeholder="John Doe">
+                        <input type="text" id="uname" name="username" placeholder="John Doe">
                     </div>
                 </div>
                 <div class="row">
@@ -33,7 +35,7 @@
                         <label for="pword">Password</label>
                     </div>
                     <div class="col col-60">
-                        <input type="password" id="pword" name="password" placeholder="">
+                        <input type="text" id="pword" name="password" placeholder="">
                     </div>
                 </div>
                 <div class="row">
@@ -41,21 +43,23 @@
                         <label for="pword2">Confirm Password</label>
                     </div>
                     <div class="col col-60">
-                        <input type="password" id="pword2" name="confirmpassword" placeholder="">
+                        <input type="text" id="pword2" name="confirmpassword" placeholder="">
                     </div>
                 </div>
             </form>
-        </div> 
+        </div>
         <div id="login-button" class="container-button">
             <div class="col col-25">
-                <a href="home.html"><input type="submit" class="button-page" onclick="" value="Submit"></a>
+                <!-- <a href="home.html"> -->
+                <button type="submit" class="button-page" onclick="addUser()">Submit</button>
+                <!-- </a> -->
             </div>
             <div class="col col-25">
             </div>
             <div class="col col-25">
             </div>
             <div class="col col-25">
-                <a href="index.html"><input type="button" class="button-page" onclick="" value="Back"></a>
+                <a href="index.html"><input type="button" form="regform" class="button-page" onclick="" value="Back"></a>
             </div>
         </div>
 	</body>
@@ -64,3 +68,4 @@
             <p>App information</a>.</p>
     </div>
 </html>
+
