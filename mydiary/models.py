@@ -28,7 +28,7 @@ class MyDiary:
                             user_password
                             ))
             app_db.conn.commit()
-            message = "Added successfully"
+            message = "Registered Successfully!"
         else:
             message = "This user already exists!"
         return message
