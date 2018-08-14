@@ -3,6 +3,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="style.css">	
+		<script src="mydiary.js"></script>
 	</head>
 	<body background="background6.jpg">
 		<div class="page-header header">
@@ -27,16 +28,11 @@
 						<input type="password" id="pword" name="password" placeholder="">
 					</div>
 				</div>
-				<br>
-				{% if error %}
-					<p class="error"><strong>Error:</strong> {{ error }}</p>
-				{% endif %}
-				<br>
 			</form>
 		</div>
 		<div id="login-button" class="container-button">
 			<div class="col col-25">
-				<a href="home.html"><input type="submit" class="button-page" onclick="" value="Submit"></a>
+				<button type="submit" class="button-page" onclick="login()">Submit</button>
 			</div>
 			<div class="col col-25">
 			</div>
