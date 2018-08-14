@@ -103,12 +103,12 @@ def userlogin():
             error_msg = "Cannot find password. Please provide valid login credentials"
             #return jsonify({"input error": "Cannot find password. Please provide valid login credentials"}), 400
         if input_error:
-            return jsonify({"Input error": error_msg}), 400
+            return jsonify({"input error": error_msg}), 400
         login_email=request.json.get('email', "")
         login_password=request.json.get('password', "")
         logged_in = my_diary_object.userLogin(login_email, login_password)
         if type(logged_in) == int:
             expires = datetime.timedelta(hours=1)
             access_token = create_access_token(identity=logged_in, expires_delta=expires)
-            return json.dumps({"access_token": access_token}), 200
+            return json.dumps({"message": "Login successful", "access_token": access_token}), 200
         return jsonify({'login' : logged_in}), 401
