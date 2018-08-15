@@ -93,15 +93,12 @@ def userlogin():
         if not request.json:
             input_error = True
             error_msg = "Wrong input data format"
-            #return jsonify({"input error": "Wrong input data format"}), 400
         if 'email' not in request.json:
             input_error = True
             error_msg = "Cannot find email. Please provide valid login credentials"
-            #return jsonify({"input error": "Cannot find email. Please provide valid login credentials"}), 400
         if 'password' not in request.json:
             input_error = True
             error_msg = "Cannot find password. Please provide valid login credentials"
-            #return jsonify({"input error": "Cannot find password. Please provide valid login credentials"}), 400
         if input_error:
             return jsonify({"input error": error_msg}), 400
         login_email=request.json.get('email', "")

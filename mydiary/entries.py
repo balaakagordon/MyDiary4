@@ -33,7 +33,7 @@ def get_all_entries():
     """ outputs all entries for the logged in user """
     user_id_data = get_jwt_identity()
     get_entries = my_diary_object.user_entries.getAllEntries(user_id_data)
-    return jsonify({'entries': get_entries}), 200
+    return jsonify({"entries": get_entries, "msg": "Authorized"}), 200
 
 """ this route adds single diary entry """
 @app.route('/api/v1/entries', methods=['POST'])

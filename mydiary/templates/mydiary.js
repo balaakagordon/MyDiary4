@@ -40,11 +40,30 @@ function login(){
     })
     .then((res) => res.json())
     .then (function (data) {
-        console.log(data)
+        //console.log("data: " + data)
         if(data["message"] == "Login successful") {
-            window.location.href='./home.html'
+            console.log("token from login: " + data["access_token"])
+            getUserEntries(data["access_token"])
+            //window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
             document.getElementById('logmessage').innerHTML = data["message"];
         }
+    })
+}
+
+
+function getUserEntries(token){
+    //console.log("token getentries: " + token)
+    fetch('http://127.0.0.1:5000/api/v1/entries', {
+        method:'GET',
+        headers:{
+            'Authorization': 'Bearer ' + token,
+            'Content-type':'application/json'
+        },
+    })
+    .then((res) => res.json())
+    .then (function (data) {
+        console.log("data: " + data["msg"])
+        console.log("data: " + data["entries"])
     })
 }
