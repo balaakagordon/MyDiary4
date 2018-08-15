@@ -21,7 +21,8 @@ class Test_apis(unittest.TestCase):
         response_reg = tester.post('/auth/signup',\
                         data=json.dumps({"name": "regtest user",\
                         "email": "email@regtest1.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response_reg.status_code, 201)
     
@@ -30,7 +31,8 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data={"name": "test user",\
                         "email": "email@test.com", \
-                        "password":"testpass"}, \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}, \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
@@ -39,7 +41,8 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data=json.dumps({"nme": "test user",\
                         "email": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
@@ -48,16 +51,18 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "em": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
     def test_registration_no_password_field(self):
         tester = app.test_client(self)
         response = tester.post('/auth/signup',\
-                        data=json.dumps('{"name": "test user",\
+                        data=json.dumps({"name": "test user",\
                         "email": "email@test.com", \
-                        "pass":"testpass"}'), \
+                        "pass":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
@@ -66,22 +71,25 @@ class Test_apis(unittest.TestCase):
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         response2 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response2.status_code, 409)
-        self.assertIn('This user already exists', str(response2.data))
+        self.assertIn('This user already exists!', str(response2.data))
                         
     def test_registration_invalid_name(self):
         tester = app.test_client(self)
         response = tester.post('/auth/signup',\
                         data=json.dumps({"name": "t u",\
                         "email": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('Please enter a valid first and last name', str(response.data))
@@ -91,7 +99,8 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test",\
                         "email": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('Please enter a valid first and last name', str(response.data))
@@ -101,7 +110,8 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test us!er",\
                         "email": "email@test.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('Invalid character. Please enter a valid first and last name', str(response.data))
@@ -111,7 +121,8 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "emailtest.com", \
-                        "password":"testpass"}), \
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('Please enter a valid email address', str(response.data))
@@ -121,7 +132,8 @@ class Test_apis(unittest.TestCase):
         response = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@test.com", \
-                        "password":"pas"}), \
+                        "password":"pas",
+                        "confirmpassword":"pas"}), \
                         content_type='application/json')
         self.assertEqual(response.status_code, 411)
         self.assertIn('Password too short', str(response.data))
@@ -130,7 +142,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup', \
                         data=json.dumps({"name": "logtest user",\
-                        "email": "email@logtest1.com","password":"testpass"}), \
+                        "email": "email@logtest1.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         response2 = tester.post('/auth/login', \
                         data=json.dumps({"email": "email@logtest1.com",\
@@ -143,7 +157,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup', \
                         data=json.dumps({"name": "logtest user",\
-                        "email": "email@logtest2.com","password":"testpass"}), \
+                        "email": "email@logtest2.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         response2 = tester.post('/auth/login', \
                         data=json.dumps({"email": "email@logtest2.com",\
@@ -165,7 +181,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup', \
                         data=json.dumps({"name": "logtest user",\
-                        "email": "email@logtest4.com","password":"testpass"}), \
+                        "email": "email@logtest4.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         response2 = tester.post('/auth/login', \
                         data=json.dumps({"eml": "email@logtest4.com",\
@@ -178,7 +196,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup', \
                         data=json.dumps({"name": "logtest user",\
-                        "email": "email@logtest5.com","password":"testpass"}), \
+                        "email": "email@logtest5.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}), \
                         content_type='application/json')
         response2 = tester.post('/auth/login', \
                         data=json.dumps({"email": "email@logtest5.com",\
@@ -193,7 +213,8 @@ class Test_apis(unittest.TestCase):
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@addtest1.com",\
-                        "password": "testpass"}),\
+                        "password": "testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@addtest1.com",\
@@ -214,7 +235,8 @@ class Test_apis(unittest.TestCase):
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@addtest2.com",\
-                        "password": "testpass"}),\
+                        "password": "testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@addtest2.com",\
@@ -236,7 +258,8 @@ class Test_apis(unittest.TestCase):
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@addtest3.com",\
-                        "password": "testpass"}),\
+                        "password": "testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@addtest3.com",\
@@ -258,7 +281,8 @@ class Test_apis(unittest.TestCase):
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@addtest4.com",\
-                        "password": "testpass"}),\
+                        "password": "testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@addtest4.com",\
@@ -280,7 +304,8 @@ class Test_apis(unittest.TestCase):
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
                         "email": "email@addtest5.com",\
-                        "password": "testpass"}),\
+                        "password": "testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@addtest5.com",\
@@ -306,7 +331,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
-                        "email": "email@gettest1.com","password":"testpass"}),\
+                        "email": "email@gettest1.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@gettest1.com",\
@@ -330,7 +357,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
-                        "email": "email@getalltest2.com","password":"testpass"}),\
+                        "email": "email@getalltest2.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@getalltest2.com",\
@@ -348,7 +377,9 @@ class Test_apis(unittest.TestCase):
             tester = app.test_client(self)
             response1 = tester.post('/auth/signup',\
                             data=json.dumps({"name": "test user",\
-                            "email": "email@gettest2.com","password":"testpass"}),\
+                            "email": "email@gettest2.com",
+                            "password":"testpass",
+                            "confirmpassword":"testpass"}),\
                             content_type='application/json')
             response2 = tester.post('/auth/login',\
                             data=json.dumps({"email": "email@gettest2.com",\
@@ -372,7 +403,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
-                        "email": "email@get1.com","password":"testpass"}),\
+                        "email": "email@get1.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@get1.com",\
@@ -402,7 +435,9 @@ class Test_apis(unittest.TestCase):
         tester = app.test_client(self)
         response1 = tester.post('/auth/signup',\
                         data=json.dumps({"name": "test user",\
-                        "email": "email@getalltest2.com","password":"testpass"}),\
+                        "email": "email@getalltest2.com",
+                        "password":"testpass",
+                        "confirmpassword":"testpass"}),\
                         content_type='application/json')
         response2 = tester.post('/auth/login',\
                         data=json.dumps({"email": "email@getalltest2.com",\
