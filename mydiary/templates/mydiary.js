@@ -15,8 +15,7 @@ function addUser() {
     .then((res) => res.json())
     .then(function (data) {
         if(data["message"] == "Invalid input") {
-            let errormsg = data["error"];
-            document.getElementById('regmessage').innerHTML = errormsg;
+            document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
             window.location.href='./login.html'
             //login(email, password);

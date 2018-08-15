@@ -15,7 +15,7 @@ CORS(app)
 app.config['JWT_SECRET_KEY'] = 'secret'
 jwt = JWTManager(app)
 
-db_name = os.environ.get('db_name', None)
+db_name = os.environ.get("db_name", None)
 if db_name == "mydiarydb":
     app_db = MyDiaryDatabase(db_name)
 else:
