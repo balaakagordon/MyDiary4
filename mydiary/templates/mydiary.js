@@ -42,9 +42,9 @@ function login(){
     .then (function (data) {
         //console.log("data: " + data)
         if(data["message"] == "Login successful") {
-            console.log("token from login: " + data["access_token"])
-            getUserEntries(data["access_token"])
-            //window.location.href='./home.html'
+            var Token = data["access_token"]
+            sessionStorage.setItem("token", Token);
+            window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
             document.getElementById('logmessage').innerHTML = data["message"];
         }
@@ -52,12 +52,12 @@ function login(){
 }
 
 
-function getUserEntries(token){
+function getUserEntries(){
     //console.log("token getentries: " + token)
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'GET',
         headers:{
-            'Authorization': 'Bearer ' + token,
+            'Authorization': 'Bearer ' + Token,
             'Content-type':'application/json'
         },
     })
