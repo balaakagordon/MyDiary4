@@ -53,7 +53,7 @@ function login(){
 
 
 function getUserEntries(){
-    //console.log("token getentries: " + token)
+    console.log("token getentries: " + Token)
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'GET',
         headers:{
