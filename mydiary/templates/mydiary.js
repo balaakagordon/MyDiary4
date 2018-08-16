@@ -54,6 +54,34 @@ function login(){
 
 //console.log("token noFunction: " + Token)
 
+// function getUserEntries(){
+//     let Token = sessionStorage.getItem("token");
+//     //console.log("token getentries: " + Token)
+//     fetch('http://127.0.0.1:5000/api/v1/entries', {
+//         method:'GET',
+//         headers:{
+//             'Authorization': 'Bearer ' + Token,
+//             'Content-type':'application/json'
+//         },
+//     })
+//     .then((res) => res.json())
+//     .then (function(data) {
+//         // displayEntries()
+//         document.getElementById('userEntries').innerHTML = JSON.stringify(data.entries);
+//         // // console.log("msg: " + data["msg"])
+//         // // console.log("data: " + JSON.stringify(data.entries))
+//         // var newRow = document.createElement("tr");
+//         // var entryCol = document.createElement("th");
+//         // entryCol.textContent
+//         // var dateCol = document.createElement("th");
+//         // var buttonCol = document.createElement("th");
+
+//         // var myTable = document.getElementById("entriesList");
+//         // my
+
+//     })
+// }
+
 function getUserEntries(){
     let Token = sessionStorage.getItem("token");
     //console.log("token getentries: " + Token)
@@ -65,14 +93,36 @@ function getUserEntries(){
         },
     })
     .then((res) => res.json())
-    .then (function(data) {
-        // displayEntries()
-        document.getElementById('userEntries').innerHTML = JSON.stringify(data.entries);
+    .then ((data) => {
+        var myTable = document.getElementById("entriesList");
+        data.entries.forEach(function(entry) {
+            let output = document.createElement("tr");
+            output.innerHTML = `
+            <th>${entry.title}</th>
+            <th>${entry.date}</th>
+            <th>
+                <a href="edit.html"><input type="button" class="button-edit" onclick="" value="Edit"></a>
+                <input type="button" class="button-delete" onclick="" value="Delete">
+            </th>
+            `;
+            myTable.appendChild(output)
+            
+        });
+        //document.getElementById('userEntries').innerHTML = JSON.stringify(data.entries);
+        
         // console.log("msg: " + data["msg"])
         // console.log("data: " + JSON.stringify(data.entries))
+        
+
     })
 }
 
-// function displayEntries(){
-    
-// }
+// output += `
+//                 <ul>
+//                     <li>ID: ${entry.entry_id}</li>
+//                     <li>Data: ${entry.data}</li>
+//                     <li>Date: ${entry.date}</li>
+//                 </ul>`;
+
+
+//document.getElementById('userEntries').innerHTML = output;

@@ -121,14 +121,26 @@ class Entries:
         sql_check_fn = """SELECT * from entries WHERE user_id = %s;"""
         app_db.cursor.execute(sql_check_fn, [user_id_data])
         rows = app_db.cursor.fetchall()
-        entry_list = {}
+        entry_list = []
         for row in rows:
-            #the entry title is the key in the entry_list dictionary
-            entry_list[row[2]] = { 
+            entry = { 
                 'entry_id': row[0],
                 'user_id': row[1],
                 'title': row[2],
                 'data': row[3],
                 'date': row[4]
                 }
-        return entry_list
+            entry_list.append(entry)
+        return entry_list[:]
+
+        # entry_list = {}
+        # for row in rows:
+        #     #the entry title is the key in the entry_list dictionary
+        #     entry_list[row[2]] = { 
+        #         'entry_id': row[0],
+        #         'user_id': row[1],
+        #         'title': row[2],
+        #         'data': row[3],
+        #         'date': row[4]
+        #         }
+        # return entry_list
