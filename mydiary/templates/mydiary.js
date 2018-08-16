@@ -1,3 +1,5 @@
+//var Token = null;
+
 function addUser() {
 
     let name = document.getElementById('uname').value;
@@ -25,7 +27,6 @@ function addUser() {
     })
 }
 
-
 function login(){
 
     let email = document.getElementById('mail').value;
@@ -42,7 +43,7 @@ function login(){
     .then (function (data) {
         //console.log("data: " + data)
         if(data["message"] == "Login successful") {
-            var Token = data["access_token"]
+            let Token = data["access_token"]
             sessionStorage.setItem("token", Token);
             window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
@@ -51,9 +52,11 @@ function login(){
     })
 }
 
+//console.log("token noFunction: " + Token)
 
 function getUserEntries(){
-    console.log("token getentries: " + Token)
+    let Token = sessionStorage.getItem("token");
+    //console.log("token getentries: " + Token)
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'GET',
         headers:{
@@ -62,8 +65,14 @@ function getUserEntries(){
         },
     })
     .then((res) => res.json())
-    .then (function (data) {
-        console.log("data: " + data["msg"])
-        console.log("data: " + data["entries"])
+    .then (function(data) {
+        // displayEntries()
+        document.getElementById('userEntries').innerHTML = JSON.stringify(data.entries);
+        // console.log("msg: " + data["msg"])
+        // console.log("data: " + JSON.stringify(data.entries))
     })
 }
+
+// function displayEntries(){
+    
+// }
