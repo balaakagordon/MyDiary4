@@ -24,7 +24,7 @@ def get_entry(diary_entry_id):
                     )
     if get_entry == 'The specified entry cannot be found':
         return jsonify({'error': get_entry}), 400
-    return jsonify({'get entry': get_entry}), 200
+    return jsonify({'getEntry': get_entry}), 200
 
 """ returns all diary entries """
 @app.route('/api/v1/entries', methods=['GET'])

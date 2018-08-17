@@ -20,7 +20,6 @@ function addUser() {
             document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
             window.location.href='./login.html'
-            //login(email, password);
         } else if(data["message"] == "This user already exists!") {
             document.getElementById('regmessage').innerHTML = data["message"];
         }
@@ -41,7 +40,6 @@ function login(){
     })
     .then((res) => res.json())
     .then (function (data) {
-        //console.log("data: " + data)
         if(data["message"] == "Login successful") {
             let Token = data["access_token"]
             sessionStorage.setItem("token", Token);
@@ -52,39 +50,8 @@ function login(){
     })
 }
 
-//console.log("token noFunction: " + Token)
-
-// function getUserEntries(){
-//     let Token = sessionStorage.getItem("token");
-//     //console.log("token getentries: " + Token)
-//     fetch('http://127.0.0.1:5000/api/v1/entries', {
-//         method:'GET',
-//         headers:{
-//             'Authorization': 'Bearer ' + Token,
-//             'Content-type':'application/json'
-//         },
-//     })
-//     .then((res) => res.json())
-//     .then (function(data) {
-//         // displayEntries()
-//         document.getElementById('userEntries').innerHTML = JSON.stringify(data.entries);
-//         // // console.log("msg: " + data["msg"])
-//         // // console.log("data: " + JSON.stringify(data.entries))
-//         // var newRow = document.createElement("tr");
-//         // var entryCol = document.createElement("th");
-//         // entryCol.textContent
-//         // var dateCol = document.createElement("th");
-//         // var buttonCol = document.createElement("th");
-
-//         // var myTable = document.getElementById("entriesList");
-//         // my
-
-//     })
-// }
-
 function getUserEntries(){
     let Token = sessionStorage.getItem("token");
-    //console.log("token getentries: " + Token)
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'GET',
         headers:{
@@ -101,28 +68,35 @@ function getUserEntries(){
             <th>${entry.title}</th>
             <th>${entry.date}</th>
             <th>
-                <a href="edit.html"><input type="button" class="button-edit" onclick="" value="Edit"></a>
+                <button id="${entry.entry_id}" type="button" class="button-edit" onclick="editPage(${entry.entry_id})">Edit</button>
                 <input type="button" class="button-delete" onclick="" value="Delete">
             </th>
             `;
             myTable.appendChild(output)
             
         });
-        //document.getElementById('userEntries').innerHTML = JSON.stringify(data.entries);
-        
-        // console.log("msg: " + data["msg"])
-        // console.log("data: " + JSON.stringify(data.entries))
-        
-
     })
 }
 
-// output += `
-//                 <ul>
-//                     <li>ID: ${entry.entry_id}</li>
-//                     <li>Data: ${entry.data}</li>
-//                     <li>Date: ${entry.date}</li>
-//                 </ul>`;
+function editPage(entryID){
+    sessionStorage.setItem("entry_ID", entryID);
+    window.location.href='./edit.html'
+}
 
-
-//document.getElementById('userEntries').innerHTML = output;
+function getOneEntry(){
+    let Token = sessionStorage.getItem("token");
+    let entry_ID = sessionStorage.getItem("entry_ID");
+    fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
+        method:'GET',
+        headers:{
+            'Authorization': 'Bearer ' + Token,
+            'Content-type':'application/json'
+        },
+    })
+    .then((res) => res.json())
+    .then ((data) => {
+        document.getElementById('title').innerHTML = data.getEntry.title;
+        document.getElementById('date').innerHTML = data.getEntry.date;
+        document.getElementById('text').innerHTML = data.getEntry.data;
+    })
+}

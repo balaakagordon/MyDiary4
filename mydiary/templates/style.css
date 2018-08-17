@@ -11,7 +11,15 @@ h2 {
 }
 
 h3 {
+    font-size: 25px;
+    font-family: Bradley Hand, cursive;
+    text-align: center;
+}
+
+h4 {
     font-size: 20px;
+    font-family: Bradley Hand, cursive;
+    text-align: center;
 }
 
 img {
