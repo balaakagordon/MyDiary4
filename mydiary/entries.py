@@ -40,8 +40,8 @@ def get_all_entries():
 @jwt_required
 def post_entry():
     """ this method creates a new entry """
-    # if not request.json:
-    #     return jsonify({"input error": "please input json data"}), 400
+    if not request.json:
+        return jsonify({"input error": "please input json data"}), 400
     if 'entrydata' not in request.json:
         return jsonify({"message": "Please enter a title"}), 400
     if 'entrytitle' not in request.json:

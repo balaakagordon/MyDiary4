@@ -107,6 +107,5 @@ def userlogin():
         if type(logged_in) == int:
             expires = datetime.timedelta(hours=1)
             access_token = create_access_token(identity=logged_in, expires_delta=expires)
-            #return json.dumps({"message": "Login successful", "access_token": access_token}), 200
             return jsonify({"message": "Login successful", "access_token": access_token}), 200
         return jsonify({"message" : logged_in}), 401

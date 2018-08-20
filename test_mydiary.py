@@ -245,8 +245,8 @@ class Test_apis(unittest.TestCase):
         tokendata = json.loads(response2.data)
         mytoken = tokendata["access_token"]
         response3 = tester.post('/api/v1/entries',\
-                        data='{"entrydata": "Test for adding a new entry",\
-                        "entrytitle": "New entry test"}',\
+                        data=json.dumps({"entrydata": "Test for adding a new entry in the wrong format",\
+                        "entrytitle": "New entry test"}),\
                         content_type='html/text',\
                         headers={"authorization": 'Bearer ' + str(mytoken)})
         self.assertEqual(response3.status_code, 400)
@@ -273,7 +273,7 @@ class Test_apis(unittest.TestCase):
                         content_type='application/json',\
                         headers={"authorization": 'Bearer ' + str(mytoken)})
         self.assertEqual(response3.status_code, 400)
-        self.assertIn('Cannot find diary entry', str(response3.data))
+        self.assertIn('Please enter a title', str(response3.data))
 
     def test_add_new_entry_no_entrytitle_field(self):
         """ a test for the status code returned by the post method """
