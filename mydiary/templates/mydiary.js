@@ -1,7 +1,4 @@
-//var Token = null;
-
 function addUser() {
-
     let name = document.getElementById('uname').value;
     let email = document.getElementById('mail').value;
     let password = document.getElementById('pword').value;
@@ -68,7 +65,7 @@ function getUserEntries(){
             <th>${entry.title}</th>
             <th>${entry.date}</th>
             <th>
-                <button id="${entry.entry_id}" type="button" class="button-edit" onclick="editPage(${entry.entry_id})">Edit</button>
+                <button id="${entry.entry_id}" type="button" class="button-edit" onclick="edit(${entry.entry_id})">Edit</button>
                 <input type="button" class="button-delete" onclick="" value="Delete">
             </th>
             `;
@@ -78,12 +75,10 @@ function getUserEntries(){
     })
 }
 
-function editPage(entryID){
-    sessionStorage.setItem("entry_ID", entryID);
-    window.location.href='./edit.html'
-}
-
 function getOneEntry(){
+    let addoredit = sessionStorage.getItem("addoredit");
+    console.log("getOneEntry: " + addoredit);
+    sessionStorage.setItem("addoredit", "edit");
     let Token = sessionStorage.getItem("token");
     let entry_ID = sessionStorage.getItem("entry_ID");
     fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
@@ -95,8 +90,95 @@ function getOneEntry(){
     })
     .then((res) => res.json())
     .then ((data) => {
-        document.getElementById('title').innerHTML = data.getEntry.title;
-        document.getElementById('date').innerHTML = data.getEntry.date;
-        document.getElementById('text').innerHTML = data.getEntry.data;
+        document.getElementById('entryTitle').value = data.getEntry.title;
+        document.getElementById('entryDate').innerHTML = data.getEntry.date;
+        document.getElementById('entryText').value = data.getEntry.data;
+    })
+}
+
+function edit(entryID){
+    sessionStorage.setItem("entry_ID", entryID);
+    sessionStorage.setItem("addoredit", "edit");
+    window.location.href='./edit.html'
+}
+
+function add(){
+    sessionStorage.setItem("addoredit", "add");
+    window.location.href='./edit.html'
+}
+
+function addOrEdit() {
+    let addoredit = sessionStorage.getItem("addoredit");
+    if(addoredit == "add") {
+        console.log("if add: " + addoredit);
+        document.getElementById('entryTitle').value = "";
+        document.getElementById('entryDate').innerHTML = "";
+        document.getElementById('entryText').value = "";
+    } else if(addoredit == "edit") {
+        getOneEntry()
+    }
+}
+
+function newOrUpdate() {
+    let addoredit = sessionStorage.getItem("addoredit");
+    if(addoredit == "add") {
+        console.log("if new: " + addoredit);
+        addEntry()
+    } else if(addoredit == "edit") {
+        editEntry()
+    }
+}
+
+function addEntry() {
+    let Token = sessionStorage.getItem("token");
+    let entrytitle = document.getElementById("entryTitle").value;
+    let entrydata = document.getElementById('entryText').value;
+    console.log("title: " + entrytitle + ", " + "data: " + entrydata)
+    fetch('http://127.0.0.1:5000/api/v1/entries', {
+        method:'POST',
+        headers: {
+            'Authorization': 'Bearer ' + Token,
+            'Accept': 'application/json',
+            'Content-type':'application/json'
+        },
+        body:JSON.stringify({"entrytitle": entrytitle, "entrydata": entrydata})
+    })
+    .then((res) => res.json())
+    .then(function (data) {
+        if(data["message"] == "Null entry field") {
+            document.getElementById('editmessage').innerHTML = "Sorry! The entry cannot be left";
+        } else if(data["message"] == "Entry already exists") {
+            document.getElementById('editmessage').innerHTML = data["message"]
+        } else if(data["message"] == "Entry added successfully") {
+            window.location.href='./home.html'
+        } 
+    })
+}
+
+function editEntry() {
+    let Token = sessionStorage.getItem("token");
+    let entrytitle = document.getElementById("entryTitle").value;
+    let entrydata = document.getElementById('entryText').value;
+    console.log("edit::  title: " + entrytitle + ", " + "data: " + entrydata)
+    let entry_ID = sessionStorage.getItem("entry_ID");
+    fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
+        method:'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + Token,
+            'Accept': 'application/json',
+            'Content-type':'application/json'
+        },
+        body:JSON.stringify({"entrytitle": entrytitle, "entrydata": entrydata})
+    })
+    .then((res) => res.json())
+    .then(function (data) {
+        console.log("Show something")
+        if(data["message"] == "Null entry field") {
+            document.getElementById('editmessage').innerHTML = "The entry cannot be left blank. Write a note to future you!";
+        } else if(data["message"] == "Sorry, cannot edit entries made before today") {
+            document.getElementById('editmessage').innerHTML = data["message"]
+        } else if(data["message"] == "Entry edited") {
+            console.log("Success!")
+        } 
     })
 }

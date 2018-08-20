@@ -16,6 +16,11 @@ h3 {
     text-align: center;
 }
 
+div[data-placeholder]:not([data-placeholder=""]):empty::before {
+    color: gray;
+    content: attr(data-placeholder);
+  }
+
 h4 {
     font-size: 20px;
     font-family: Bradley Hand, cursive;
@@ -27,6 +32,37 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+textarea {
+    resize:none;
+    overflow:auto;
+    border:0px;
+    outline:0px;
+    background-color:transparent;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Bradley Hand, cursive;
+    text-align: center;
+    font-size: 28px;
+}
+
+/*textarea[data-placeholder]:not([data-placeholder=""]):empty::before {
+    color: gray;
+    content: attr(data-placeholder);
+  }*/
+
+/* div.titledata {
+    font-size: 36px;
+    font-family: Bradley Hand, cursive;
+    text-align: center;
+}
+
+#entrydata {
+    font-size: 25px;
+    font-family: Bradley Hand, cursive;
+    text-align: center;
+} */
 
 #page {
    height:100%;
@@ -219,6 +255,10 @@ tr:hover {
     background-color: #ADC4A6;
     color: white;
 }
+
+/*#entryText, #entryTitle {
+    contenteditable
+}*/
 
 .container {
     opacity: 0.98;

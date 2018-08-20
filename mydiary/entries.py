@@ -40,14 +40,19 @@ def get_all_entries():
 @jwt_required
 def post_entry():
     """ this method creates a new entry """
-    if not request.json:
-        return jsonify({"input error": "please input json data"}), 400
+    # if not request.json:
+    #     return jsonify({"input error": "please input json data"}), 400
     if 'entrydata' not in request.json:
-        return jsonify({"message": "Cannot find diary entry"}), 400
+        return jsonify({"message": "Please enter a title"}), 400
     if 'entrytitle' not in request.json:
         return jsonify({"message": "Cannot find diary title"}), 400
     entry_data=request.json.get('entrydata', "")
     title_data=request.json.get('entrytitle', "")
+    if entry_data == "":
+        #entry_data = "...No Entry Data...s"
+        return jsonify({"message": "Null entry field"}), 404
+    if title_data == "":
+        title_data = "...No Title..."
     user_id_data = get_jwt_identity()
     add_entry = my_diary_object.user_entries.addEntry(
                     user_id_data,
@@ -80,7 +85,11 @@ def put_entry(diary_entry_id):
     data = request.get_json()
     entry_data=data["entrydata"]
     title_data=data["entrytitle"]
-    
+    if entry_data == "":
+        #entry_data = "...No Entry Data...s"
+        return jsonify({"message": "Null entry field"}), 404
+    if title_data == "":
+        title_data = "...No Title..."
     edit_time = now_time
     user_id_data = get_jwt_identity()
     entry_id_data = diary_entry_id
@@ -99,5 +108,5 @@ def put_entry(diary_entry_id):
             'entrydata': entry_data,
             'datecreated': now_time
         }
-        return jsonify({'entry':entry}), 201
-    return jsonify({'error': edit_entry}), 400
+        return jsonify({'entry':entry, "message": edit_entry}), 201
+    return jsonify({'message': edit_entry}), 400

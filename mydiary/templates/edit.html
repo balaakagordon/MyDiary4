@@ -5,22 +5,25 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="mydiary.js"></script>	
 	</head>
-	<body background="background6.jpg" onload="getOneEntry()">
+	<body background="background6.jpg" onload="addOrEdit()">
 		<div id="page">
 			<div id="header" class="page-header header">
 				<img src="diary_logo.png" alt="MyDiary" class="page-logo"></img>
 			</div>
 			<div id="body">
 				<div class="container container-home">
+					<div id="editmessage"></div>
 					<br>
-					<h2><div id="title"></div></h2>
-					<h4><div id="date"></div></h4>
+					<!-- <h2><div id="entryTitle" data-placeholder="Click Here to Enter Today's Title" contenteditable="true"></div></h2> -->
+					<textarea class="titledata" id="entryTitle" placeholder="Click Here to Enter Today's Title" rows="1" cols="70"></textarea>
+						<h4><div id="entryDate"></div></h4>
 					<br><br>
-					<h3><div id="text"></div></h3>
+					<!-- <h3><div id="entryText" data-placeholder="What's on your mind? Click here to start writing :)" contenteditable="true"></div></h3> -->
+					<textarea  id="entryText" placeholder="What's on your mind? Click here to start writing :)" rows="7" cols="70"></textarea>
 				</div>
 				<div id="app-button" class="container-button">
 					<div class="col col-20">
-						<a href="edit.html"><input type="button" class="button-page" onclick="" value="Save"></a>
+						<button type="button" class="button-page" onclick="newOrUpdate()">Save</button>
 					</div>
 					<div class="col col-20">
 						<a href="home.html"><input type="button" class="button-page" onclick="" value="Delete"></a>
