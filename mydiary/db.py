@@ -32,6 +32,12 @@ class MyDiaryDatabase:
                     data VARCHAR(5000) NOT NULL, 
                     date_modified VARCHAR(10) NOT NULL);""")
         self.conn.commit()
+    
+    def new_blacklist(self):
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS blacklist 
+                    (token VARCHAR(500) NOT NULL,
+                    user_id INTEGER NOT NULL);""")
+        self.conn.commit()
 
     def drop_entries_table(self):
         self.cursor.execute("""DROP TABLE IF EXISTS entries;""")

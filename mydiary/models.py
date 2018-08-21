@@ -34,7 +34,7 @@ class MyDiary:
         return message
 
     def userLogin(self, login_email, login_password):
-        """ login method requires a username and password """
+        """ login method requires a username and password and returns a user ID """
         sql_fn = """SELECT * from users WHERE email = %s AND password = %s;"""
         app_db.cursor.execute(sql_fn, (
                             login_email,
@@ -45,7 +45,26 @@ class MyDiary:
             message = "Sorry, incorrect credentials"
             return message
         return rows[0][0]
-
+    
+    def userLogout(self, token, user_id):
+        """ logout method adds current token to blacklist \
+        table """
+        sql_insert_fn = """INSERT INTO blacklist (token, user_id) VALUES(%s, %s);"""
+        app_db.cursor.execute(sql_insert_fn, (
+                            token,
+                            user_id
+                            ))
+        app_db.conn.commit()
+        return "Successfully logged out"
+    
+    def inBlacklist(self, token):
+        """ Check blacklist for generated token """
+        sql_check_fn = """SELECT * from blacklist WHERE token = %s;"""
+        app_db.cursor.execute(sql_check_fn, (token,))
+        rows = app_db.cursor.fetchall()
+        if rows == []:
+            return False
+        return True
 
 class Entries:
     """ Entry lists for each user are modelled as objects with \

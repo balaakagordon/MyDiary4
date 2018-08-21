@@ -3,12 +3,12 @@
 from flask import Flask, jsonify, json, request
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+    get_jwt_identity, get_raw_jwt
 )
 import datetime
 
 from .models import MyDiary, Entries
-from mydiary import app, app_db, now_time
+from mydiary import app, app_db, now_time, jwt
 
 
 my_diary_object = MyDiary()
@@ -49,6 +49,11 @@ def reg_validation(data):
         return ["error", "Passwords do not match", 400]
     return [user_name, user_email, user_password]
 
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    blacklisted = my_diary_object.inBlacklist(jti)
+    return blacklisted
 
 @app.route('/auth/signup', methods=['GET', 'POST'])
 def register():
@@ -109,3 +114,14 @@ def userlogin():
             access_token = create_access_token(identity=logged_in, expires_delta=expires)
             return jsonify({"message": "Login successful", "access_token": access_token}), 200
         return jsonify({"message" : logged_in}), 401
+
+@app.route('/logout', methods=['GET'])
+@jwt_required
+def logout():
+    token = get_raw_jwt()['jti']
+    user_id = get_jwt_identity()
+    logout = my_diary_object.userLogout(token, user_id)
+    if logout == "Successfully logged out":
+        return jsonify({"msg": logout}), 200
+    else:
+        return jsonify({"msg": "logout failed"}), 400

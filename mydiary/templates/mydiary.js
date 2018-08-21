@@ -182,3 +182,25 @@ function editEntry() {
         } 
     })
 }
+
+function logout() {
+    let Token = sessionStorage.getItem("token");
+    fetch('http://127.0.0.1:5000/logout', {
+        method:'GET',
+        headers: {
+            'Authorization': 'Bearer ' + Token,
+            'Content-type':'application/json'
+        },
+    })
+    .then((res) => res.json())
+    .then(function (data) {
+        console.log("Show something")
+        if(data["msg"] == "Successfully logged out") {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('entry_ID');
+            sessionStorage.removeItem('addoredit');
+            sessionStorage.setItem("msg", data["msg"]);
+            window.location.href='./login.html'
+        }
+    })
+}

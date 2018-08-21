@@ -13,6 +13,8 @@ app = Flask(__name__)
 CORS(app)
 
 app.config['JWT_SECRET_KEY'] = 'secret'
+app.config['JWT_BLACKLIST_ENABLED'] = True
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
 jwt = JWTManager(app)
 
 db_name = os.environ.get("db_name", None)
@@ -26,6 +28,7 @@ else:
     pass
 app_db.new_users_table()
 app_db.new_entries_table()
+app_db.new_blacklist()
 
 now_time = "".join(str(datetime.datetime.now().day) +
             "/" + str(datetime.datetime.now().month) +
