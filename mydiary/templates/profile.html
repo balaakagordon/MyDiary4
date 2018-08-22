@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="style.css">	
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="mydiary.js"></script>	
 	</head>
 	<body background="background6.jpg">
 		<div class="page-header header">
@@ -24,13 +25,13 @@
 
         <div id="app-button" class=container-button>
             <div class="col col-33">
-                <a href="profile.html"><input type="button" class="button-page" onclick="" value="Save"></a>
+				<button type="submit" class="button-page" onclick="">Save</button>
             </div>
             <div class="col col-33">
-                <a href="home.html"><input type="button" class="button-page" onclick="" value="MyThoughts"></a>
+				<button type="submit" class="button-page" onclick="window.location.href='./home.html'">MyThoughts</button>
             </div>
             <div class="col col-33">
-                <a href="login.html"><input type="button" class="button-page" onclick="" value="LogOut"></a>
+				<button type="submit" class="button-page" onclick="logout()">LogOut</button>
             </div>
 		</div>
         <div class="footer">

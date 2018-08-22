@@ -49,7 +49,7 @@ def post_entry():
     entry_data=request.json.get('entrydata', "")
     title_data=request.json.get('entrytitle', "")
     if entry_data == "":
-        #entry_data = "...No Entry Data...s"
+        entry_data = "...No Entry Data...s"
         return jsonify({"message": "Null entry field"}), 404
     if title_data == "":
         title_data = "...No Title..."

@@ -23,6 +23,12 @@ function addUser() {
     })
 }
 
+function loginmessage() {
+    let usermessage = sessionStorage.getItem("usermessage")
+    document.getElementById("logmessage").innerHTML = usermessage;
+    sessionStorage.removeItem("usermessage")
+}
+
 function login(){
 
     let email = document.getElementById('mail').value;
@@ -40,6 +46,7 @@ function login(){
         if(data["message"] == "Login successful") {
             let Token = data["access_token"]
             sessionStorage.setItem("token", Token);
+            sessionStorage.setItem("usermessage", "You have been logged in!");
             window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
             document.getElementById('logmessage').innerHTML = data["message"];
@@ -49,6 +56,8 @@ function login(){
 
 function getUserEntries(){
     let Token = sessionStorage.getItem("token");
+    let usermessage = sessionStorage.getItem("usermessage");
+    document.getElementById("homemessage").innerHTML = usermessage;
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'GET',
         headers:{
@@ -65,19 +74,18 @@ function getUserEntries(){
             <th>${entry.title}</th>
             <th>${entry.date}</th>
             <th>
-                <button id="${entry.entry_id}" type="button" class="button-edit" onclick="edit(${entry.entry_id})">Edit</button>
+                <button id="${entry.entry_id}" type="submit" class="button-edit" onclick="edit(${entry.entry_id})">Edit</button>
                 <input type="button" class="button-delete" onclick="" value="Delete">
             </th>
             `;
             myTable.appendChild(output)
             
         });
+        sessionStorage.removeItem("usermessage")
     })
 }
 
 function getOneEntry(){
-    let addoredit = sessionStorage.getItem("addoredit");
-    console.log("getOneEntry: " + addoredit);
     sessionStorage.setItem("addoredit", "edit");
     let Token = sessionStorage.getItem("token");
     let entry_ID = sessionStorage.getItem("entry_ID");
@@ -110,7 +118,6 @@ function add(){
 function addOrEdit() {
     let addoredit = sessionStorage.getItem("addoredit");
     if(addoredit == "add") {
-        console.log("if add: " + addoredit);
         document.getElementById('entryTitle').value = "";
         document.getElementById('entryDate').innerHTML = "";
         document.getElementById('entryText').value = "";
@@ -122,7 +129,6 @@ function addOrEdit() {
 function newOrUpdate() {
     let addoredit = sessionStorage.getItem("addoredit");
     if(addoredit == "add") {
-        console.log("if new: " + addoredit);
         addEntry()
     } else if(addoredit == "edit") {
         editEntry()
@@ -133,7 +139,6 @@ function addEntry() {
     let Token = sessionStorage.getItem("token");
     let entrytitle = document.getElementById("entryTitle").value;
     let entrydata = document.getElementById('entryText').value;
-    console.log("title: " + entrytitle + ", " + "data: " + entrydata)
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'POST',
         headers: {
@@ -150,6 +155,8 @@ function addEntry() {
         } else if(data["message"] == "Entry already exists") {
             document.getElementById('editmessage').innerHTML = data["message"]
         } else if(data["message"] == "Entry added successfully") {
+            usermessage = "Your thought titled, '" + entrytitle + "' has been added"
+            sessionStorage.setItem("usermessage", usermessage)
             window.location.href='./home.html'
         } 
     })
@@ -172,13 +179,14 @@ function editEntry() {
     })
     .then((res) => res.json())
     .then(function (data) {
-        console.log("Show something")
         if(data["message"] == "Null entry field") {
             document.getElementById('editmessage').innerHTML = "The entry cannot be left blank. Write a note to future you!";
         } else if(data["message"] == "Sorry, cannot edit entries made before today") {
             document.getElementById('editmessage').innerHTML = data["message"]
         } else if(data["message"] == "Entry edited") {
-            console.log("Success!")
+            usermessage = "Your thought, '" + entrytitle + "' has just been updated"
+            sessionStorage.setItem("usermessage", usermessage)
+            window.location.href='./home.html'
         } 
     })
 }
@@ -199,8 +207,16 @@ function logout() {
             sessionStorage.removeItem('token');
             sessionStorage.removeItem('entry_ID');
             sessionStorage.removeItem('addoredit');
-            sessionStorage.setItem("msg", data["msg"]);
+            sessionStorage.setItem("usermessage", data["msg"]);
             window.location.href='./login.html'
         }
     })
 }
+
+// function redirect(page) {
+//     pages = {
+//         "login": './login.html',
+//         "register": './registration.html'
+
+//     }
+// }

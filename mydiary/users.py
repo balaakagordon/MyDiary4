@@ -51,8 +51,8 @@ def reg_validation(data):
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
-    jti = decrypted_token['jti']
-    blacklisted = my_diary_object.inBlacklist(jti)
+    token = decrypted_token['jti']
+    blacklisted = my_diary_object.inBlacklist(token)
     return blacklisted
 
 @app.route('/auth/signup', methods=['GET', 'POST'])
@@ -84,8 +84,8 @@ def register():
         add_user = my_diary_object.addUser(signup_data[0], signup_data[1], signup_data[2])
         if add_user == "Registered Successfully!":
             user = {
-                'name':signup_data[0],
-                'email':signup_data[1],
+                'name': signup_data[0],
+                'email': signup_data[1],
             }
             return jsonify({"message": add_user, "user": user}), 201
         return jsonify({"message": add_user}), 409

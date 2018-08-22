@@ -16,10 +16,10 @@ h3 {
     text-align: center;
 }
 
-div[data-placeholder]:not([data-placeholder=""]):empty::before {
+/* div[data-placeholder]:not([data-placeholder=""]):empty::before {
     color: gray;
     content: attr(data-placeholder);
-  }
+  } */
 
 h4 {
     font-size: 20px;
@@ -152,7 +152,7 @@ input[type=password], select {
     box-sizing: border-box;
 }
 
-input[type=submit] {
+/* input[type=submit] {
     font-family: Bradley Hand, cursive;
     margin: auto;
     display: block;
@@ -161,13 +161,13 @@ input[type=submit] {
     cursor: pointer;
     font-size: 16px;
     text-align: center;
-}
+} */
 
-input[type=submit]:hover {
+button[type=submit]:hover {
     background-color: #45a049;
 }
 
-/*input[type=button] {
+/* input[type=button] {
     font-family: Bradley Hand, cursive;
     margin: auto;
     display: block;
@@ -177,7 +177,7 @@ input[type=submit]:hover {
     font-size: 16px;
     text-align: center;
     position: relative;
-}*/
+} */
 
 button[type=submit] {
     font-family: Bradley Hand, cursive;
