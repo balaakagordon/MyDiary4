@@ -167,6 +167,8 @@ button[type=submit]:hover {
     background-color: #45a049;
 }
 
+
+
 /* input[type=button] {
     font-family: Bradley Hand, cursive;
     margin: auto;
@@ -214,6 +216,10 @@ button[type=submit] {
     width: 80px;
     color: white;
 }
+
+.flex-container {
+    display: flex;
+  }
 
 input[type=button]:hover {
     background-color: #45a049;
