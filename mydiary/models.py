@@ -151,3 +151,18 @@ class Entries:
                 }
             entry_list.append(entry)
         return entry_list[:]
+    
+    def deleteEntry(self, entry_id_data, user_id_data):
+        """ this method deletes diary entries """
+        sql_delete_fn = """DELETE from entries where user_id = %s AND entry_id = %s;"""
+        sql_check_fn = """SELECT * from entries WHERE user_id = %s AND entry_id = %s;"""
+        print("models: entry: " + str(entry_id_data))
+        print("models: user: " + str(user_id_data))
+        app_db.cursor.execute(sql_check_fn, (user_id_data, entry_id_data))
+        rows = app_db.cursor.fetchall()
+        if rows == []:
+            message = "Unable to delete. Entry does not exist"
+        else:
+            app_db.cursor.execute(sql_delete_fn, (user_id_data, entry_id_data))
+            message = "Entry successfully deleted"
+        return message

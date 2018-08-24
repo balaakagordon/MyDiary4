@@ -9,7 +9,12 @@ function addUser() {
             'Accept': 'application/json',
             'Content-type':'application/json'
         },
-        body:JSON.stringify({name: name, email: email, password:password, confirmpassword:confirmpassword})
+        body:JSON.stringify({
+                name: name, 
+                email: email, 
+                password: password, 
+                confirmpassword: confirmpassword
+        })
     })
     .then((res) => res.json())
     .then(function (data) {
@@ -30,7 +35,6 @@ function loginmessage() {
 }
 
 function login(){
-
     let email = document.getElementById('mail').value;
     let password = document.getElementById('pword').value;
     fetch('http://127.0.0.1:5000/auth/login', {
@@ -39,7 +43,7 @@ function login(){
             'Accept': 'application/json',
             'Content-type':'application/json'
         },
-        body:JSON.stringify({"email": email, "password":password})
+        body:JSON.stringify({"email": email, "password": password})
     })
     .then((res) => res.json())
     .then (function (data) {
@@ -50,6 +54,28 @@ function login(){
             window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
             document.getElementById('logmessage').innerHTML = data["message"];
+        }
+    })
+}
+
+function logout() {
+    let Token = sessionStorage.getItem("token");
+    fetch('http://127.0.0.1:5000/logout', {
+        method:'GET',
+        headers: {
+            'Authorization': 'Bearer ' + Token,
+            'Content-type':'application/json'
+        },
+    })
+    .then((res) => res.json())
+    .then(function (data) {
+        console.log("Show something")
+        if(data["msg"] == "Successfully logged out") {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('entry_ID');
+            sessionStorage.removeItem('addoredit');
+            sessionStorage.setItem("usermessage", data.msg);
+            window.location.href='./login.html';
         }
     })
 }
@@ -73,9 +99,9 @@ function getUserEntries(){
             output.innerHTML = `
             <th>${entry.title}</th>
             <th>${entry.date}</th>
-            <th>
+            <th class="flex-container">
                 <button id="${entry.entry_id}" type="submit" class="button-edit" onclick="edit(${entry.entry_id})">Edit</button>
-                <input type="button" class="button-delete" onclick="" value="Delete">
+                <button id="${entry.entry_id}" type="submit" class="button-delete" onclick="del(${entry.entry_id})">Delete</button>
             </th>
             `;
             myTable.appendChild(output)
@@ -191,32 +217,26 @@ function editEntry() {
     })
 }
 
-function logout() {
+function del(entryID) {
+    sessionStorage.setItem("entry_ID", entryID);
+    deleteEntry();
+    //window.location.href='./edit.html'
+}
+
+function deleteEntry() {
     let Token = sessionStorage.getItem("token");
-    fetch('http://127.0.0.1:5000/logout', {
-        method:'GET',
-        headers: {
+    let entry_ID = sessionStorage.getItem("entry_ID");
+    fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
+        method:'DELETE',
+        headers:{
             'Authorization': 'Bearer ' + Token,
+            'Accept': 'application/json',
             'Content-type':'application/json'
         },
     })
     .then((res) => res.json())
-    .then(function (data) {
-        console.log("Show something")
-        if(data["msg"] == "Successfully logged out") {
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('entry_ID');
-            sessionStorage.removeItem('addoredit');
-            sessionStorage.setItem("usermessage", data["msg"]);
-            window.location.href='./login.html'
-        }
+    .then ((data) => {
+        sessionStorage.setItem("usermessage", data.message);
+        window.location.href='./home.html';
     })
 }
-
-// function redirect(page) {
-//     pages = {
-//         "login": './login.html',
-//         "register": './registration.html'
-
-//     }
-// }

@@ -49,7 +49,7 @@ def post_entry():
     entry_data=request.json.get('entrydata', "")
     title_data=request.json.get('entrytitle', "")
     if entry_data == "":
-        entry_data = "...No Entry Data...s"
+        entry_data = "...No Entry Data..."
         return jsonify({"message": "Null entry field"}), 404
     if title_data == "":
         title_data = "...No Title..."
@@ -110,3 +110,15 @@ def put_entry(diary_entry_id):
         }
         return jsonify({'entry':entry, "message": edit_entry}), 201
     return jsonify({'message': edit_entry}), 400
+
+""" this route deletes a diary entry """
+@app.route('/api/v1/entries/<int:diary_entry_id>', methods=['DELETE'])
+@jwt_required
+def delete_entry(diary_entry_id):
+    """ this method deletes an entry """
+    user_id_data = get_jwt_identity()
+    entry_id_data = diary_entry_id
+    print("views: entry: " + str(entry_id_data))
+    print("views: user: " + str(user_id_data))
+    delete_entry = my_diary_object.user_entries.deleteEntry(entry_id_data, user_id_data)
+    return jsonify({'message': delete_entry})
