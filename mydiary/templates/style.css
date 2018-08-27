@@ -170,18 +170,6 @@ button[type=submit]:hover {
 
 
 
-/* input[type=button] {
-    font-family: Bradley Hand, cursive;
-    margin: auto;
-    display: block;
-    border-style: solid;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    position: relative;
-} */
-
 button[type=submit] {
     font-family: Bradley Hand, cursive;
     margin: auto;

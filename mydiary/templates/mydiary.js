@@ -1,11 +1,21 @@
-var span = document.getElementsByClassName("close")[0];
+var baseurl = "http://127.0.0.1:5000"
+
+function loadLanding() {
+    fetch(baseurl + "/")
+    .then((res) => res.json())
+    .then(function (data) {
+        if(data["message"] == "welcome") {
+            window.location.href=baseurl + '/index.html'
+        }
+    })
+}
 
 function addUser() {
     let name = document.getElementById('uname').value;
     let email = document.getElementById('mail').value;
     let password = document.getElementById('pword').value;
     let confirmpassword = document.getElementById('pword2').value;
-    fetch('http://127.0.0.1:5000/auth/signup', {
+    fetch(baseurl + '/auth/signup', {
         method:'POST',
         headers:{
             'Accept': 'application/json',
@@ -39,7 +49,7 @@ function loginmessage() {
 function login(){
     let email = document.getElementById('mail').value;
     let password = document.getElementById('pword').value;
-    fetch('http://127.0.0.1:5000/auth/login', {
+    fetch(baseurl + '/auth/login', {
         method:'POST',
         headers:{
             'Accept': 'application/json',
@@ -63,7 +73,7 @@ function login(){
 
 function userProfile() {
     let Token = sessionStorage.getItem("token");
-    fetch('http://127.0.0.1:5000/profile', {
+    fetch(baseurl + '/profile', {
         method:'GET',
         headers: {
             'Authorization': 'Bearer ' + Token,
@@ -86,7 +96,7 @@ function userProfile() {
 
 function logout() {
     let Token = sessionStorage.getItem("token");
-    fetch('http://127.0.0.1:5000/logout', {
+    fetch(baseurl + '/logout', {
         method:'GET',
         headers: {
             'Authorization': 'Bearer ' + Token,
@@ -114,7 +124,7 @@ function getUserEntries() {
         reminder = "Have you written today? Record some memories for future you! :)"
     }
     document.getElementById("homepopup").innerHTML = usermessage;
-    fetch('http://127.0.0.1:5000/api/v1/entries', {
+    fetch(baseurl + '/api/v1/entries', {
         method:'GET',
         headers:{
             'Authorization': 'Bearer ' + Token,
@@ -161,11 +171,11 @@ function closeModal() {
     modal.style.display = "none";
 }
 
-function getOneEntry(){
+function getOneEntry() {
     sessionStorage.setItem("addoredit", "edit");
     let Token = sessionStorage.getItem("token");
     let entry_ID = sessionStorage.getItem("entry_ID");
-    fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
+    fetch(baseurl + '/api/v1/entries/' + entry_ID, {
         method:'GET',
         headers:{
             'Authorization': 'Bearer ' + Token,
@@ -219,7 +229,7 @@ function addEntry() {
     let Token = sessionStorage.getItem("token");
     let entrytitle = document.getElementById("entryTitle").value;
     let entrydata = document.getElementById('entryText').value;
-    fetch('http://127.0.0.1:5000/api/v1/entries', {
+    fetch(baseurl + '/api/v1/entries', {
         method:'POST',
         headers: {
             'Authorization': 'Bearer ' + Token,
@@ -228,14 +238,12 @@ function addEntry() {
         },
         body:JSON.stringify({"entrytitle": entrytitle, "entrydata": entrydata})
     })
-    // .then((res) => res.json())
     .then(function(res) {
         appStatus = res.status;
         return res.json();
     })
     .then(function (data) {
         errCatcher(data)
-        // console.log(appStatus)
         if(data["message"] == "Null entry field") {
             document.getElementById('editmessage').innerHTML = "Please write down something, in the entry field, for future you!";
         } else if(data["message"] == "Entry already exists") {
@@ -255,6 +263,8 @@ function addEntry() {
 function errCatcher(data) {
     if(appStatus == 401) {
         window.location.href='./401.html'
+    } else if(appStatus == 403) {
+        window.location.href='./403.html'
     }
 }
 
@@ -263,7 +273,7 @@ function editEntry() {
     let entrytitle = document.getElementById("entryTitle").value;
     let entrydata = document.getElementById('entryText').value;
     let entry_ID = sessionStorage.getItem("entry_ID");
-    fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
+    fetch(baseurl + '/api/v1/entries/'+ entry_ID, {
         method:'PUT',
         headers: {
             'Authorization': 'Bearer ' + Token,
@@ -299,7 +309,7 @@ function del(entryID) {
 function deleteEntry() {
     let Token = sessionStorage.getItem("token");
     let entry_ID = sessionStorage.getItem("entry_ID");
-    fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
+    fetch(baseurl + 'api/v1/entries/'+ entry_ID, {
         method:'DELETE',
         headers:{
             'Authorization': 'Bearer ' + Token,
