@@ -32,8 +32,8 @@ def get_entry(diary_entry_id):
 def get_all_entries():
     """ outputs all entries for the logged in user """
     user_id_data = get_jwt_identity()
-    get_entries = my_diary_object.user_entries.getAllEntries(user_id_data)
-    return jsonify({"entries": get_entries, "msg": "Authorized"}), 200
+    get_entries = my_diary_object.user_entries.getAllEntries(now_time, user_id_data)
+    return jsonify({"entries": get_entries[0], "writtenToday": get_entries[1], "msg": "Authorized"}), 200
 
 """ this route adds single diary entry """
 @app.route('/api/v1/entries', methods=['POST'])
@@ -49,7 +49,6 @@ def post_entry():
     entry_data=request.json.get('entrydata', "")
     title_data=request.json.get('entrytitle', "")
     if entry_data == "":
-        entry_data = "...No Entry Data..."
         return jsonify({"message": "Null entry field"}), 404
     if title_data == "":
         title_data = "...No Title..."
@@ -86,7 +85,6 @@ def put_entry(diary_entry_id):
     entry_data=data["entrydata"]
     title_data=data["entrytitle"]
     if entry_data == "":
-        #entry_data = "...No Entry Data...s"
         return jsonify({"message": "Null entry field"}), 404
     if title_data == "":
         title_data = "...No Title..."
@@ -118,7 +116,5 @@ def delete_entry(diary_entry_id):
     """ this method deletes an entry """
     user_id_data = get_jwt_identity()
     entry_id_data = diary_entry_id
-    print("views: entry: " + str(entry_id_data))
-    print("views: user: " + str(user_id_data))
     delete_entry = my_diary_object.user_entries.deleteEntry(entry_id_data, user_id_data)
     return jsonify({'message': delete_entry})

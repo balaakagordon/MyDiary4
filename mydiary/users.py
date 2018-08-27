@@ -55,6 +55,7 @@ def check_if_token_in_blacklist(decrypted_token):
     blacklisted = my_diary_object.inBlacklist(token)
     return blacklisted
 
+
 @app.route('/auth/signup', methods=['GET', 'POST'])
 def register():
     """ This method accepts user information to create a profile """
@@ -81,7 +82,7 @@ def register():
         signup_data = reg_validation(data)
         if signup_data[0] == "error":
             return jsonify({"message": "Invalid input", "error": signup_data[1]}), signup_data[2]
-        add_user = my_diary_object.addUser(signup_data[0], signup_data[1], signup_data[2])
+        add_user = my_diary_object.addUser(signup_data[0], signup_data[1], signup_data[2], now_time)
         if add_user == "Registered Successfully!":
             user = {
                 'name': signup_data[0],
@@ -108,12 +109,20 @@ def userlogin():
             return jsonify({"input error": error_msg}), 400
         login_email=request.json.get('email', "")
         login_password=request.json.get('password', "")
-        logged_in = my_diary_object.userLogin(login_email, login_password)
+        user_id = get_jwt_identity()
+        logged_in = my_diary_object.userLogin(login_email, login_password, now_time, user_id)
         if type(logged_in) == int:
             expires = datetime.timedelta(hours=1)
             access_token = create_access_token(identity=logged_in, expires_delta=expires)
             return jsonify({"message": "Login successful", "access_token": access_token}), 200
         return jsonify({"message" : logged_in}), 401
+
+@app.route('/profile', methods=['GET'])
+@jwt_required
+def userProfile():
+    user_id = get_jwt_identity()
+    userData = my_diary_object.checkUserDetails(user_id)
+    return jsonify({"userdata": userData}), 200
 
 @app.route('/logout', methods=['GET'])
 @jwt_required
