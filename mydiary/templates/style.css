@@ -16,15 +16,16 @@ h3 {
     text-align: center;
 }
 
-/* div[data-placeholder]:not([data-placeholder=""]):empty::before {
-    color: gray;
-    content: attr(data-placeholder);
-  } */
-
 h4 {
     font-size: 20px;
     font-family: Bradley Hand, cursive;
     text-align: center;
+}
+
+span {
+    color: red;
+    font-weight:bold;
+    font-family: serif;
 }
 
 img {
@@ -184,7 +185,7 @@ button[type=submit]:hover {
 button[type=submit] {
     font-family: Bradley Hand, cursive;
     margin: auto;
-    display: block;
+    /* display: block; */
     border-style: solid;
     border-radius: 8px;
     cursor: pointer;
@@ -201,6 +202,18 @@ button[type=submit] {
     width: 150px;
     height: 60px;
     bottom: 0px;
+}
+
+.button-error {
+    color: black;
+    background-color: #63CB00;
+    border: black;
+    border-width: 5px;
+    width: 150px;
+    height: 60px;
+    left: 200px;
+    top: 150px;
+    bottom: 50px;
 }
 
 .button-edit {
@@ -262,9 +275,72 @@ tr:hover {
     color: white;
 }
 
-/*#entryText, #entryTitle {
-    contenteditable
-}*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 400;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 2px solid #101010;
+    border-radius: 10px;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    text-align: center;
+    animation-name: animatetop;
+    animation-duration: 1.5s
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    border: 3px solid #101010;    
+    color: black;
+}
+
+.modal-body {
+	padding: 2px 16px;
+    border: 3px solid #101010;	
+}
+    
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    border: 3px solid #101010;
+    color: Black;
+}
 
 .container {
     opacity: 0.98;
@@ -321,6 +397,7 @@ tr:hover {
     background-color: white;
     width: 50%;
     height: 400px;
+    overflow: scroll;
 }
 
 .container-entry {
