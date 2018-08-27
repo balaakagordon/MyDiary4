@@ -1,3 +1,5 @@
+var span = document.getElementsByClassName("close")[0];
+
 function addUser() {
     let name = document.getElementById('uname').value;
     let email = document.getElementById('mail').value;
@@ -10,9 +12,9 @@ function addUser() {
             'Content-type':'application/json'
         },
         body:JSON.stringify({
-                name: name, 
-                email: email, 
-                password: password, 
+                name: name,
+                email: email,
+                password: password,
                 confirmpassword: confirmpassword
         })
     })
@@ -50,11 +52,35 @@ function login(){
         if(data["message"] == "Login successful") {
             let Token = data["access_token"]
             sessionStorage.setItem("token", Token);
-            sessionStorage.setItem("usermessage", "You have been logged in!");
+            sessionStorage.setItem("usermessage", "Welcome! You have been logged in, succesfully :)");
             window.location.href='./home.html'
         } else if(data["message"] == "Sorry, incorrect credentials") {
             document.getElementById('logmessage').innerHTML = data["message"];
         }
+    })
+    .catch((err) => console.log(err))
+}
+
+function userProfile() {
+    let Token = sessionStorage.getItem("token");
+    fetch('http://127.0.0.1:5000/profile', {
+        method:'GET',
+        headers: {
+            'Authorization': 'Bearer ' + Token,
+            'Content-type':'application/json'
+        },
+    })
+    .then(function(res) {
+        appStatus = res.status;
+        return res.json();
+    })
+    .then(function (data) {
+        errCatcher(data)
+        document.getElementById("allentries").innerHTML = data.userdata.allEntries
+        document.getElementById("currententries").innerHTML = data.userdata.currentEntries
+        document.getElementById("deletedentries").innerHTML = data.userdata.deletedEntries
+        document.getElementById("registered").innerHTML = data.userdata.registered
+        document.getElementById("lastused").innerHTML = data.userdata.lastUsed
     })
 }
 
@@ -69,7 +95,6 @@ function logout() {
     })
     .then((res) => res.json())
     .then(function (data) {
-        console.log("Show something")
         if(data["msg"] == "Successfully logged out") {
             sessionStorage.removeItem('token');
             sessionStorage.removeItem('entry_ID');
@@ -80,10 +105,15 @@ function logout() {
     })
 }
 
-function getUserEntries(){
+function getUserEntries() {
+    var reminder = ""
     let Token = sessionStorage.getItem("token");
     let usermessage = sessionStorage.getItem("usermessage");
-    document.getElementById("homemessage").innerHTML = usermessage;
+    let modal = document.getElementById('myModal');
+    if (usermessage == "Welcome! You have been logged in, succesfully :)") {
+        reminder = "Have you written today? Record some memories for future you! :)"
+    }
+    document.getElementById("homepopup").innerHTML = usermessage;
     fetch('http://127.0.0.1:5000/api/v1/entries', {
         method:'GET',
         headers:{
@@ -91,8 +121,21 @@ function getUserEntries(){
             'Content-type':'application/json'
         },
     })
-    .then((res) => res.json())
-    .then ((data) => {
+    .then(function(res) {
+        appStatus = res.status;
+        return res.json();
+    })
+    .then(function (data) {
+        errCatcher(data)
+        let writtenToday = data.writtenToday;
+        console.log("writtenToday value: " + writtenToday)
+        if (writtenToday == false){
+            document.getElementById("writtenToday").innerHTML = reminder;
+            reminder = ""
+        }
+        if (usermessage == "Welcome! You have been logged in, succesfully :)") {
+            modal.style.display = "block";
+        }
         var myTable = document.getElementById("entriesList");
         data.entries.forEach(function(entry) {
             let output = document.createElement("tr");
@@ -104,11 +147,18 @@ function getUserEntries(){
                 <button id="${entry.entry_id}" type="submit" class="button-delete" onclick="del(${entry.entry_id})">Delete</button>
             </th>
             `;
-            myTable.appendChild(output)
-            
+            myTable.appendChild(output);
+
         });
-        sessionStorage.removeItem("usermessage")
+        
+        sessionStorage.removeItem("usermessage");
     })
+
+}
+
+function closeModal() {
+    let modal = document.getElementById('myModal');
+    modal.style.display = "none";
 }
 
 function getOneEntry(){
@@ -122,8 +172,12 @@ function getOneEntry(){
             'Content-type':'application/json'
         },
     })
-    .then((res) => res.json())
-    .then ((data) => {
+    .then(function(res) {
+        appStatus = res.status;
+        return res.json();
+    })
+    .then(function (data) {
+        errCatcher(data)
         document.getElementById('entryTitle').value = data.getEntry.title;
         document.getElementById('entryDate').innerHTML = data.getEntry.date;
         document.getElementById('entryText').value = data.getEntry.data;
@@ -136,7 +190,7 @@ function edit(entryID){
     window.location.href='./edit.html'
 }
 
-function add(){
+function add() {
     sessionStorage.setItem("addoredit", "add");
     window.location.href='./edit.html'
 }
@@ -174,25 +228,40 @@ function addEntry() {
         },
         body:JSON.stringify({"entrytitle": entrytitle, "entrydata": entrydata})
     })
-    .then((res) => res.json())
+    // .then((res) => res.json())
+    .then(function(res) {
+        appStatus = res.status;
+        return res.json();
+    })
     .then(function (data) {
+        errCatcher(data)
+        // console.log(appStatus)
         if(data["message"] == "Null entry field") {
-            document.getElementById('editmessage').innerHTML = "Sorry! The entry cannot be left";
+            document.getElementById('editmessage').innerHTML = "Please write down something, in the entry field, for future you!";
         } else if(data["message"] == "Entry already exists") {
             document.getElementById('editmessage').innerHTML = data["message"]
         } else if(data["message"] == "Entry added successfully") {
+            if(entrytitle == ""){
+                entrytitle = "..No Title.."
+            }
             usermessage = "Your thought titled, '" + entrytitle + "' has been added"
             sessionStorage.setItem("usermessage", usermessage)
             window.location.href='./home.html'
-        } 
+        }
     })
+    .catch((err) => console.log(err));
+}
+
+function errCatcher(data) {
+    if(appStatus == 401) {
+        window.location.href='./401.html'
+    }
 }
 
 function editEntry() {
     let Token = sessionStorage.getItem("token");
     let entrytitle = document.getElementById("entryTitle").value;
     let entrydata = document.getElementById('entryText').value;
-    console.log("edit::  title: " + entrytitle + ", " + "data: " + entrydata)
     let entry_ID = sessionStorage.getItem("entry_ID");
     fetch('http://127.0.0.1:5000/api/v1/entries/'+ entry_ID, {
         method:'PUT',
@@ -203,8 +272,13 @@ function editEntry() {
         },
         body:JSON.stringify({"entrytitle": entrytitle, "entrydata": entrydata})
     })
-    .then((res) => res.json())
+    // .then((res) => res.json())
+    .then(function(res) {
+        appStatus = res.status;
+        return res.json();
+    })
     .then(function (data) {
+        errCatcher(data)
         if(data["message"] == "Null entry field") {
             document.getElementById('editmessage').innerHTML = "The entry cannot be left blank. Write a note to future you!";
         } else if(data["message"] == "Sorry, cannot edit entries made before today") {
@@ -213,14 +287,13 @@ function editEntry() {
             usermessage = "Your thought, '" + entrytitle + "' has just been updated"
             sessionStorage.setItem("usermessage", usermessage)
             window.location.href='./home.html'
-        } 
+        }
     })
 }
 
 function del(entryID) {
     sessionStorage.setItem("entry_ID", entryID);
     deleteEntry();
-    //window.location.href='./edit.html'
 }
 
 function deleteEntry() {
@@ -234,8 +307,12 @@ function deleteEntry() {
             'Content-type':'application/json'
         },
     })
-    .then((res) => res.json())
-    .then ((data) => {
+    .then(function(res) {
+        appStatus = res.status;
+        return res.json();
+    })
+    .then(function (data) {
+        errCatcher(data)
         sessionStorage.setItem("usermessage", data.message);
         window.location.href='./home.html';
     })
