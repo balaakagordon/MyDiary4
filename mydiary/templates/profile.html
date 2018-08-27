@@ -5,22 +5,40 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="mydiary.js"></script>	
 	</head>
-	<body background="background6.jpg">
+	<body background="background6.jpg" onload="userProfile()">
 		<div class="page-header header">
-			<img src="diary_logo.png" alt="MyDiary" class="page-logo"></img>
+			<img src="diary_logo.png" alt="MyDiary" class="page-logo">
 		</div>
 		<div class="container container-profile">
 			<br>
-			<p><b>All entries:</b></p>
-			<p><b>Current entries:</b></p>
-			<p><b>Deleted entries:</b></p>
-			<br><br>
-			<h3>Enable reminders?</h3>
+			<table id="entriesList">
+				<tr>
+					<th>All entries: </th>
+					<th id="allentries"></th>
+				</tr>
+				<tr>
+					<th>Current entries: </th>
+					<th id="currententries"></th>
+				</tr>
+				<tr>
+					<th>Deleted entries: </th>
+					<th id="deletedentries"></th>
+				</tr>
+				<tr>
+					<th>Date Joined: </th>
+					<th id="registered"></th>
+				</tr>
+				<tr>
+					<th>Last Logged In </th>
+					<th id="lastused"></th>
+				</tr>
+			</table>
+			<br>
 			<form>
-			  <input type="radio" name="notification" value="male" checked> Email<br>
-			  <input type="radio" name="notification" value="female"> Notification<br>
-			  <input type="radio" name="notification" value="other"> None  
-			</form> 
+			  <input type="radio" name="notification" value="true" checked> Notifications On<br>
+			  <input type="radio" name="notification" value="false"> Notifications Off<br>
+			</form>
+			<br> 
 		</div>
 
         <div id="app-button" class=container-button>
