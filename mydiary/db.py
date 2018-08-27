@@ -21,7 +21,13 @@ class MyDiaryDatabase:
                     (user_id SERIAL NOT NULL PRIMARY KEY, 
                     name VARCHAR(150) NOT NULL, 
                     email VARCHAR(150) NOT NULL, 
-                    password VARCHAR(150) NOT NULL);""")
+                    password VARCHAR(150) NOT NULL,
+                    registered VARCHAR(10) NOT NULL,
+                    lastUsed VARCHAR(10) NOT NULL,
+                    deletedEntries INTEGER,
+                    currentEntries INTEGER,
+                    allEntries INTEGER,
+                    notifications BOOLEAN);""")
         self.conn.commit()
 
     def new_entries_table(self):
