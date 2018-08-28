@@ -1,1 +1,1 @@
-web: gunicorn mydiary:app
+web: gunicorn --workers=1 mydiary:app
