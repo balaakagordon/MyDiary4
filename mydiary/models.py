@@ -68,7 +68,7 @@ class MyDiary:
             "notifications": user_data[0][9]
             }
         return userData
-
+    
     def userLogout(self, token, user_id):
         """ logout method adds current token to blacklist \
         table """
