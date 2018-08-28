@@ -7,10 +7,10 @@ class MyDiaryDatabase:
     """This defines the database connection and holds methods for creating and deleting tables"""
 
     def __init__(self, db_name):
-        self.mydb = db_name
+        self.mydb = 'dbi88r8l9ebmvl'
 
         try:
-            self.conn = psycopg2.connect(dbname=self.mydb, user='postgres', host='localhost', password='password', port='5432')
+            self.conn = psycopg2.connect(dbname=self.mydb, user='sodgzedklqgcec', host='ec2-54-227-241-179.compute-1.amazonaws.com', password='8e8928519826655653cf3f4c5a32efcc71a3ae97bcfe021faa0cea9246c27c19', port='5432')
             self.cursor = self.conn.cursor()
         except Exception as e:
             print("Unable to connect. Check dbname, user or password inputs.")
