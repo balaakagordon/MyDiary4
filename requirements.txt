@@ -14,7 +14,6 @@ Flask-Cors==3.0.6
 Flask-JWT-Extended==3.12.0
 Flask-RESTful==0.3.6
 foreman==0.9.7
-futures==3.2.0
 gunicorn==19.9.0
 idna==2.7
 ipaddress==1.0.22
