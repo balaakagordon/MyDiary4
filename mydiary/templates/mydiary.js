@@ -1,4 +1,4 @@
-var baseurl = "http://mydiary4-gbalaaka.herokuapp.com/"
+var baseurl = "http://mydiary4-gbalaaka.herokuapp.com"
 
 function loadLanding() {
     fetch(baseurl + "/")
