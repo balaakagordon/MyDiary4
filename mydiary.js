@@ -1,4 +1,5 @@
-var baseurl = "http://127.0.0.1:5000"
+// var baseurl = "http://127.0.0.1:5000"
+var baseurl = "https://balaakagordon.github.io/MyDiary4"
 
 function loadLanding() {
     fetch(baseurl + "/")
