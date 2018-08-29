@@ -1,26 +1,5 @@
 var baseurl = "http://mydiary4-gbalaaka.herokuapp.com"
 
-// function loadLanding() {
-//     fetch(baseurl + "/")
-//     .then((res) => res.json())
-//     .then(function (data) {
-//         if(data["message"] == "welcome") {
-//             window.location.href=baseurl + '/index.html'
-//         }
-//     })
-// }
-
-function loadLogIn() {
-    fetch(baseurl + '/login', {
-        method:'GET',
-        headers: {
-            'Content-type':'text/html'
-        },
-    })
-    .then(res => res.text())
-    .then(page => display(page))
-}
-
 function addUser() {
     let name = document.getElementById('uname').value;
     let email = document.getElementById('mail').value;
@@ -44,7 +23,7 @@ function addUser() {
         if(data["message"] == "Invalid input") {
             document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
-            window.location.href='./login.html'
+            window.location.href='/login'
         } else if(data["message"] == "This user already exists!") {
             document.getElementById('regmessage').innerHTML = data["message"];
         }
@@ -74,7 +53,7 @@ function login(){
             let Token = data["access_token"]
             sessionStorage.setItem("token", Token);
             sessionStorage.setItem("usermessage", "Welcome! You have been logged in, succesfully :)");
-            window.location.href='./home.html'
+            window.location.href='/home'
         } else if(data["message"] == "Sorry, incorrect credentials") {
             document.getElementById('logmessage').innerHTML = data["message"];
         }
@@ -121,7 +100,7 @@ function logout() {
             sessionStorage.removeItem('entry_ID');
             sessionStorage.removeItem('addoredit');
             sessionStorage.setItem("usermessage", data.msg);
-            window.location.href='./login.html';
+            window.location.href='/login';
         }
     })
 }
@@ -208,12 +187,12 @@ function getOneEntry() {
 function edit(entryID){
     sessionStorage.setItem("entry_ID", entryID);
     sessionStorage.setItem("addoredit", "edit");
-    window.location.href='./edit.html'
+    window.location.href='/edit'
 }
 
 function add() {
     sessionStorage.setItem("addoredit", "add");
-    window.location.href='./edit.html'
+    window.location.href='/edit'
 }
 
 function addOrEdit() {
@@ -265,7 +244,7 @@ function addEntry() {
             }
             usermessage = "Your thought titled, '" + entrytitle + "' has been added"
             sessionStorage.setItem("usermessage", usermessage)
-            window.location.href='./home.html'
+            window.location.href='/home'
         }
     })
     .catch((err) => console.log(err));
@@ -273,9 +252,9 @@ function addEntry() {
 
 function errCatcher(data) {
     if(appStatus == 401) {
-        window.location.href='./401.html'
+        window.location.href='/401'
     } else if(appStatus == 403) {
-        window.location.href='./403.html'
+        window.location.href='/403'
     }
 }
 
@@ -307,7 +286,7 @@ function editEntry() {
         } else if(data["message"] == "Entry edited") {
             usermessage = "Your thought, '" + entrytitle + "' has just been updated"
             sessionStorage.setItem("usermessage", usermessage)
-            window.location.href='./home.html'
+            window.location.href='/home'
         }
     })
 }
@@ -335,6 +314,6 @@ function deleteEntry() {
     .then(function (data) {
         errCatcher(data)
         sessionStorage.setItem("usermessage", data.message);
-        window.location.href='./home.html';
+        window.location.href='/home';
     })
 }

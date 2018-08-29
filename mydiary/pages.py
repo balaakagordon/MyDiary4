@@ -14,7 +14,7 @@ def landingpage():
     return render_template('index.html')
     # return jsonify({"message": "welcome"}), 200
 
-@app.route('/signup')
+@app.route('/registration')
 def signuppage():
     return render_template('registration.html')
 
@@ -23,16 +23,13 @@ def loginpage():
     return render_template('login.html')
 
 @app.route('/home')
-@jwt_required
 def homepage():
     return render_template('home.html')
 
 @app.route('/edit')
-@jwt_required
 def editpage():
     return render_template('edit.html')
 
 @app.route('/userprofile')
-@jwt_required
 def profilepage():
     return render_template('profile.html')
