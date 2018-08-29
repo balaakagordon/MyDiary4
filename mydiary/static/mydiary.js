@@ -14,7 +14,7 @@ function loadLogIn() {
     fetch(baseurl + '/login', {
         method:'GET',
         headers: {
-            'Content-type':'application/json'
+            'Content-type':'text/html'
         },
     })
 }
