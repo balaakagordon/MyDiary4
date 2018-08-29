@@ -2,26 +2,26 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<script src="mydiary.js"></script>	
+		<link rel="stylesheet" type="text/css" href="static/style.css">
+		<script src="static/mydiary.js"></script>	
 	</head>
-	<body background="background6.jpg">
+	<body background="static/background6.jpg">
 		<div class="page-header header">
 			<br>
 		</div>
 		<div class="container container-welcome">
-			<img src="diary_logo.png" class="welcome-logo"></img>
+			<img src="static/diary_logo.png" class="welcome-logo">
 		</div>
 		<div id="login-button" class="container-button">
 			<div class="col col-25">
-				<button type="submit" class="button-page" onclick="window.location.href='./login.html'">LogIn</button>
+				<button type="submit" class="button-page" onclick="loadLogIn()">LogIn</button>
 			</div>
 			<div class="col col-25">
 			</div>
 			<div class="col col-25">
 			</div>
 			<div class="col col-25">
-				<button type="submit" class="button-page" onclick="window.location.href='./registration.html'">Register</button>
+				<button type="submit" class="button-page" onclick="window.location.href='/registration.html'">Register</button>
 			</div>				
 		</div>
 		<div class="footer">

@@ -10,10 +10,11 @@ from mydiary import app, app_db, now_time, jwt
 
 @app.route('/')
 def landing():
-    """ This endpoint helps to load the landing page """
-    return render_template('templates/index.html')
+    """ This endpoint loads the landing page """
+    return render_template('index.html')
     # return jsonify({"message": "welcome"}), 200
 
 @app.route('/login')
-def welcome():
-    return render_template('templates/login.html')
+def login():
+    # return jsonify({"message": "welcome"}), 200
+    return render_template('login.html')
