@@ -24,7 +24,7 @@ function addUser() {
             document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
             console.log("gonna display login")
-            window.location.href='/loginpage'
+            window.location.href='/login'
         } else if(data["message"] == "This user already exists!") {
             document.getElementById('regmessage').innerHTML = data["message"];
         }
