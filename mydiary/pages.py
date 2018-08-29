@@ -11,15 +11,15 @@ from mydiary import app, app_db, now_time, jwt
 @app.route('/')
 def landingpage():
     """ This endpoint loads the landing page """
-    return render_template('index.html'), 200
+    return render_template('index.html')
 
 @app.route('/registration')
 def signuppage():
-    return render_template('registration.html'), 200
+    return render_template('registration.html')
 
 @app.route('/login')
 def loginpage():
-    return render_template('login.html'), 200
+    return render_template('login.html')
 
 @app.route('/home')
 def homepage():
