@@ -23,7 +23,8 @@ function addUser() {
         if(data["message"] == "Invalid input") {
             document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
-            window.location.href='/login'
+            console.log("gonna display login")
+            window.location.href='/loginpage'
         } else if(data["message"] == "This user already exists!") {
             document.getElementById('regmessage').innerHTML = data["message"];
         }
