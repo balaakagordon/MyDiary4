@@ -36,3 +36,4 @@ now_time = "".join(str(datetime.datetime.now().day) +
 
 from . import entries
 from . import users
+from . import templates

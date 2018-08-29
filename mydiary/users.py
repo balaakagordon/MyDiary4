@@ -53,11 +53,6 @@ def check_if_token_in_blacklist(decrypted_token):
     blacklisted = my_diary_object.inBlacklist(token)
     return blacklisted
 
-@app.route('/')
-def landing():
-    """ This endpoint helps to load the landing page """
-    return jsonify({"message": "welcome"}), 200
-
 @app.route('/auth/signup', methods=['GET', 'POST'])
 def register():
     """ This method accepts user information to create a profile """
