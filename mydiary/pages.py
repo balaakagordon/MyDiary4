@@ -16,5 +16,5 @@ def landing():
 
 @app.route('/login')
 def login():
-    # return jsonify({"message": "welcome"}), 200
-    return render_template('login.html')
+    return jsonify({"message": "welcome"}), 200
+    # return render_template('login.html')
