@@ -17,6 +17,8 @@ function loadLogIn() {
             'Content-type':'text/html'
         },
     })
+    .then(res => res.text())
+    .then(page => display(page))
 }
 
 function addUser() {
