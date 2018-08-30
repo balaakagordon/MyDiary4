@@ -24,7 +24,7 @@ function addUser() {
             document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
             console.log("gonna display login")
-            window.location.href='/login'
+            // window.location.href='/login'
         } else if(data["message"] == "This user already exists!") {
             document.getElementById('regmessage').innerHTML = data["message"];
         }
@@ -209,6 +209,7 @@ function addOrEdit() {
 
 function newOrUpdate() {
     let addoredit = sessionStorage.getItem("addoredit");
+    console.log(addoredit)
     if(addoredit == "add") {
         addEntry()
     } else if(addoredit == "edit") {
@@ -234,7 +235,7 @@ function addEntry() {
         return res.json();
     })
     .then(function (data) {
-        errCatcher(data)
+        errCatcher(appStatus)
         if(data["message"] == "Null entry field") {
             document.getElementById('editmessage').innerHTML = "Please write down something, in the entry field, for future you!";
         } else if(data["message"] == "Entry already exists") {
@@ -251,11 +252,25 @@ function addEntry() {
     .catch((err) => console.log(err));
 }
 
-function errCatcher(data) {
-    if(appStatus == 401) {
-        window.location.href='/401'
-    } else if(appStatus == 403) {
-        window.location.href='/403'
+function goBack() {
+    window.history.back()
+  }
+
+function errCatcher(appStatus) {
+    errorCodes = {
+        401: '/401',
+        403: '/403',
+        404: '/404',
+        405: '/405',
+        408: '/408',
+        410: '/410',
+        500: '/500',
+        501: '/501',
+        503: '/503',
+        504: '/504',
+    }
+    if(appStatus in errorCodes) {
+        window.location.href=errorCodes.appStatus
     }
 }
 
