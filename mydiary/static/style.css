@@ -417,7 +417,10 @@ tr:hover {
 }
 
 .container-button {
-    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
     padding: 25px 70px 25px 70px;
 }
 

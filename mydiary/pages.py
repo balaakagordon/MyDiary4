@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, json, request, render_template
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+    jwt_required
 )
 
 
@@ -30,5 +29,6 @@ def editpage():
     return render_template('edit.html'), 200
 
 @app.route('/userprofile')
+@jwt_required
 def profilepage():
     return render_template('profile.html'), 200

@@ -4,7 +4,7 @@ from mydiary import app
 
 
 @app.errorhandler(400)
-def bad_request():
+def bad_request(e):
     return render_template('400.html'), 400
 
 @app.errorhandler(401)
@@ -13,7 +13,7 @@ def not_authorized(e):
     return render_template('401.html'), 401
 
 @app.errorhandler(403)
-def forbidden():
+def forbidden(e):
     return render_template('403.html'), 403
 
 @app.errorhandler(404)
