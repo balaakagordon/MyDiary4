@@ -1,4 +1,5 @@
-var baseurl = "http://mydiary4-gbalaaka.herokuapp.com"
+// var baseurl = "http://mydiary4-gbalaaka.herokuapp.com"
+var baseurl = "http://127.0.0.1:5000"
 
 function addUser() {
     let name = document.getElementById('uname').value;
@@ -23,8 +24,7 @@ function addUser() {
         if(data["message"] == "Invalid input") {
             document.getElementById('regmessage').innerHTML = data["error"];
         } else if(data["message"] == "Registered Successfully!") {
-            console.log("gonna display login")
-            // window.location.href='/login'
+            window.location.href='/login'
         } else if(data["message"] == "This user already exists!") {
             document.getElementById('regmessage').innerHTML = data["message"];
         }
