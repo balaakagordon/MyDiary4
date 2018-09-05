@@ -1,1 +1,1 @@
-web: gunicorn --workers=1 mydiary:app
+web: gunicorn --workers=1 mydiary:app --log-level debug

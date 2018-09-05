@@ -22,6 +22,13 @@ h4 {
     text-align: center;
 }
 
+h5 {
+    font-size: 20px;
+    font-family: Bradley Hand, cursive;
+    text-align: center;
+    color: red;
+}
+
 span {
     color: red;
     font-weight:bold;
@@ -311,13 +318,15 @@ tr:hover {
 .modal-header {
     padding: 2px 16px;
     background-color: #5cb85c;
+    font-size: 28px;
     border: 3px solid #101010;    
     color: black;
 }
 
 .modal-body {
 	padding: 2px 16px;
-    border: 3px solid #101010;	
+    border: 3px solid #101010;
+    font-size: 25px;
 }
     
 
@@ -335,10 +344,14 @@ tr:hover {
     border: black;
     border-style: solid;
     border-width: 5px;
-    opacity: 0.98;
     border-radius: 8px;
     padding: 25px 70px 25px 70px;
     font-family: Bradley Hand, cursive;
+}
+
+.container:hover,
+.container:focus {
+    opacity: 1;
 }
 
 .container-login {
@@ -404,7 +417,10 @@ tr:hover {
 }
 
 .container-button {
-    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
     padding: 25px 70px 25px 70px;
 }
 

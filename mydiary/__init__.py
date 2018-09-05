@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 from flask_jwt_extended import (
     JWTManager
@@ -15,6 +15,7 @@ CORS(app)
 app.config['JWT_SECRET_KEY'] = 'secret'
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
+
 jwt = JWTManager(app)
 
 db_name = os.environ.get("db_name", None)
@@ -37,3 +38,4 @@ now_time = "".join(str(datetime.datetime.now().day) +
 from . import entries
 from . import users
 from . import pages
+from . import error_handlers

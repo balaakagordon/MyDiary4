@@ -39,7 +39,7 @@ def get_all_entries():
 @app.route('/api/v1/entries', methods=['POST'])
 @jwt_required
 def post_entry():
-    """ this method creates a new entry """
+    """ this method creates a new user entry """
     if not request.json:
         return jsonify({"input error": "please input json data"}), 400
     if 'entrydata' not in request.json:
