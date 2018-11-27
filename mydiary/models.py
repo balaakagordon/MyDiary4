@@ -49,11 +49,12 @@ class MyDiary:
         rows = app_db.cursor.fetchall()
         if rows == []:
             message = "Sorry, incorrect credentials"
-            return message
+            return (message, "Login failed")
         sql_update_fn = """UPDATE users SET lastUsed = %s WHERE user_id = %s;"""
         app_db.cursor.execute(sql_update_fn, (current_date, user_id))
         app_db.conn.commit()
-        return rows[0][0]
+        username = rows[0][1]
+        return (rows[0][0], username)
 
     def checkUserDetails(self, user_id ):
         sql_check_fn = """SELECT * from users WHERE user_id = %s;"""
@@ -108,6 +109,7 @@ class Entries:
         rows = app_db.cursor.fetchall()
         if rows == []:
             sql_check_fn = """SELECT * from users WHERE user_id = %s;"""
+            sql_get_entry = """SELECT * from entries WHERE title = %s AND data = %s;"""
             sql_insert_fn = """INSERT INTO entries (user_id, title, data, date_modified) VALUES(%s, %s, %s, %s);"""
             sql_update_fn = """UPDATE users SET currentEntries = %s, allEntries = %s WHERE user_id = %s;"""
             app_db.cursor.execute(sql_check_fn, (user_id_data,))
@@ -128,9 +130,14 @@ class Entries:
                             user_id_data
             ))
             app_db.conn.commit()
-            message = "Entry added successfully"
+            app_db.cursor.execute(sql_get_entry, (
+                            title_data,
+                            entry_data
+            ))
+            returned_user = app_db.cursor.fetchall()
+            message = ["Entry added successfully", returned_user[0]]
         else:
-            message = "Entry already exists"
+            message = ["Entry already exists", None]
         return message
         
 
@@ -174,6 +181,7 @@ class Entries:
 
     def getAllEntries(self, now_time, user_id_data):
         sql_check_fn = """SELECT * from entries WHERE user_id = %s;"""
+        # print("ID DATA ====> ", user_id_data)
         app_db.cursor.execute(sql_check_fn, [user_id_data])
         rows = app_db.cursor.fetchall()
         entry_list = []

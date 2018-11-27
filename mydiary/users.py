@@ -108,16 +108,20 @@ def userlogin():
         login_password=request.json.get('password', "")
         user_id = get_jwt_identity()
         logged_in = my_diary_object.userLogin(login_email, login_password, now_time, user_id)
-        if type(logged_in) == int:
-            expires = datetime.timedelta(hours=1)
+        if type(logged_in[0]) == int:
+            expires = datetime.timedelta(hours=24)
             access_token = create_access_token(identity=logged_in, expires_delta=expires)
-            return jsonify({"message": "Login successful", "access_token": access_token}), 200
-        return jsonify({"message" : logged_in}), 401
+            return jsonify({
+                "message": "Login successful",
+                "access_token": access_token,
+                "user": logged_in[1]
+                }), 200
+        return jsonify({"message" : logged_in[0]}), 401
 
 @app.route('/profile', methods=['GET'])
 @jwt_required
 def userProfile():
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()[0]
     userData = my_diary_object.checkUserDetails(user_id)
     return jsonify({"userdata": userData}), 200
 
@@ -125,7 +129,7 @@ def userProfile():
 @jwt_required
 def logout():
     token = get_raw_jwt()['jti']
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()[0]
     logout = my_diary_object.userLogout(token, user_id)
     if logout == "Successfully logged out":
         return jsonify({"msg": logout}), 200

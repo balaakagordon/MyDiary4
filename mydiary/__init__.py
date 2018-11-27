@@ -19,7 +19,7 @@ app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
 jwt = JWTManager(app)
 
 db_name = os.environ.get("db_name", None)
-if db_name == "mydiarydb":
+if (db_name == "dbi88r8l9ebmvl"):
     app_db = MyDiaryDatabase(db_name)
 else:
     db_name = "testdb"

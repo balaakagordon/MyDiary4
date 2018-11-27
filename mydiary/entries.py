@@ -17,7 +17,7 @@ my_diary_object.user_entries = Entries()
 @jwt_required
 def get_entry(diary_entry_id):
     """ outputs one user entry specified by the id in the url """
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()[0]
     get_entry = my_diary_object.user_entries.getOneEntry(
                     user_id,
                     diary_entry_id
@@ -31,7 +31,7 @@ def get_entry(diary_entry_id):
 @jwt_required
 def get_all_entries():
     """ outputs all entries for the logged in user """
-    user_id_data = get_jwt_identity()
+    user_id_data = get_jwt_identity()[0]
     get_entries = my_diary_object.user_entries.getAllEntries(now_time, user_id_data)
     return jsonify({"entries": get_entries[0], "writtenToday": get_entries[1], "msg": "Authorized"}), 200
 
@@ -52,22 +52,23 @@ def post_entry():
         return jsonify({"message": "Null entry field"}), 404
     if title_data == "":
         title_data = "...No Title..."
-    user_id_data = get_jwt_identity()
+    user_id_data = get_jwt_identity()[0]
     add_entry = my_diary_object.user_entries.addEntry(
                     user_id_data,
                     title_data,
                     entry_data,
                     now_time
                     )
-    if add_entry == "Entry added successfully":
+    if add_entry[0] == "Entry added successfully":
         new_entry = {
-            'user_id' : user_id_data,
-            'title' : title_data,
-            'entrydata' : entry_data,
+            'entry_id' : add_entry[1][0],
+            'user_id' : add_entry[1][1],
+            'title' : add_entry[1][2],
+            'body' : add_entry[1][3],
             'datecreated' : now_time
         }
-        return jsonify({'message' : add_entry, 'entry added' : new_entry}), 201
-    return jsonify({'message' : add_entry}), 409
+        return jsonify({'message' : add_entry[0], 'entry' : new_entry}), 201
+    return jsonify({'message' : add_entry[0]}), 409
 
 """ this route updates a single diary entry """
 @app.route('/api/v1/entries/<int:diary_entry_id>', \
@@ -89,7 +90,7 @@ def put_entry(diary_entry_id):
     if title_data == "":
         title_data = "...No Title..."
     edit_time = now_time
-    user_id_data = get_jwt_identity()
+    user_id_data = get_jwt_identity()[0]
     entry_id_data = diary_entry_id
     edit_entry = my_diary_object.user_entries.modifyEntry(
                     title_data,
@@ -114,7 +115,7 @@ def put_entry(diary_entry_id):
 @jwt_required
 def delete_entry(diary_entry_id):
     """ this method deletes an entry """
-    user_id_data = get_jwt_identity()
+    user_id_data = get_jwt_identity()[0]
     entry_id_data = diary_entry_id
     delete_entry = my_diary_object.user_entries.deleteEntry(entry_id_data, user_id_data)
     return jsonify({'message': delete_entry})
